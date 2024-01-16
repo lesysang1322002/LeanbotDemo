@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Leanbot BLE Control</title>
+<title>Leanbot Demo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" type="text/css" href="sty.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
@@ -27,6 +27,46 @@
             </div>
         </div>
     </nav>
+    <div class="main-content">
+        <div class="top-panel">
+            <div class="row">
+            <div class="column">
+            <div class="square" id="ir2L" >  
+            </div>
+            <div class="content">
+                <p>ir2L</p>
+            </div>
+            </div>
+            <div class="column">
+                <div class="square" id="ir0L">  
+                </div>
+                <div class="content">
+                    <p>ir0L</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="square" id="ir1R">  
+                </div>
+                <div class="content">
+                    <p>ir1R</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="square" id="ir3R">  
+                </div>
+                <div class="content">
+                    <p>ir3R</p>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="bottom-panel">
+            <div class="centered-content">
+                <input type="range" id="distanceSlider" min="0" max="100" step="1" value="0" />
+                <p id="distanceValue">Distance: 0 cm</p>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.4.0/annyang.min.js"></script>
 <script type = "text/javascript" src="script.js"></script>

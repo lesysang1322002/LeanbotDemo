@@ -49,7 +49,7 @@ navigator.bluetooth.requestDevice({
         logstatus(dev.name);
         document.getElementById("buttonText").innerText = "Rescan";
     gattCharacteristic = characteristic
-    // gattCharacteristic.addEventListener('characteristicvaluechanged', handleChangedValue)
+    gattCharacteristic.addEventListener('characteristicvaluechanged', handleChangedValue)
     return gattCharacteristic.startNotifications()
 })
 .catch(error => {
@@ -86,91 +86,6 @@ function  logstatus(text){
 const navbarTitle = document.getElementById('navbarTitle');
 navbarTitle.textContent = text;
 }
-function handleHover(action) {
-    // Thực hiện hành động tương ứng với hover (ví dụ: gọi hàm Forward(), Backward(), ...)
-    switch (action) {
-        case 'Forward':
-            Forward();
-            break;
-        case 'Backward':
-            Backward();
-            break;
-        case 'Right':
-            Right();
-            break;
-        case 'Left':
-            Left();
-            break;
-        case 'Stop':
-            Stop();
-            break;
-        case 'BackLeft':
-            BackLeft();
-            break;
-        case 'BackRight':
-            BackRight();
-            break;
-        case 'ForwardLeft':
-            ForwardLeft();
-            break;
-        case 'ForwardRight':
-            ForwardRight();
-            break;
-        // ... Các case khác ...
-        default:
-            break;
-    }
-}
-function handleMouseOut() {
-    // Xử lý khi chuột rời khỏi button
-    Stop();
-}
-// Function hướng 
-function Forward(){
-    send("F");
-}
-function Backward(){
-    send("B");
-}
-function Left(){
-    send("L");
-}
-function Right(){
-    send("R");
-}
-function Stop(){
-    send("S");
-}
-function ForwardLeft(){
-    send("G");
-}
-function ForwardRight(){
-    send("I");
-}
-function BackLeft(){
-    send("H");
-}
-function BackRight(){
-    send("J");
-}
-function ledOff(){
-    send("w");
-}
-function ledOn(){
-    send("W");
-}
-function gripperClose(){
-    send("X");
-}
-function gripperOpen(){
-    send("x");
-}
-function hornOff(){
-    send("v");
-}
-function hornOn(){
-    send("V");
-}
 document.addEventListener('DOMContentLoaded', function () {
     var infoButton = document.getElementById('infoButton');
     var infoContent = document.getElementById('infoContent');
@@ -188,47 +103,67 @@ document.addEventListener('DOMContentLoaded', function () {
         infoContent.style.display = 'none';
     });
 });
-    var speedSlider = document.getElementById('speed-slider');
-    var speedValue = document.getElementById('speed-value');
 
-    // Thiết lập sự kiện khi thanh kéo thay đổi
-    speedSlider.addEventListener('input', function() {
-        var speed = speedSlider.value;
-        speedValue.innerText = speed;
-        // Thực hiện các công việc khác tương ứng với giá trị speed
-        send(speed);
-});
-function listen() {
-    annyang.start({ continuous: true });
-    document.getElementById('ledOnText').innerText = "Turn on";
-    document.getElementById('ledOffText').innerText = "Turn off";
-    document.getElementById('MuteText').innerText = "Mute";
-    document.getElementById('UnmuteText').innerText = "Unmute";
-    document.getElementById('OpenText').innerText = "Open";
-    document.getElementById('CloseText').innerText = "Close";
+let ir2L,ir0L,ỉr1R,ir3R,distance;
+const slider = document.getElementById('distanceSlider');
+const distanceValue = document.getElementById('distanceValue');
+function handleChangedValue(event) {
+    let data = event.target.value;
+    let dataArray = new Uint8Array(data.buffer);
+    let textDecoder = new TextDecoder('utf-8');
+    let valueString = textDecoder.decode(dataArray);
+    let tabIndex = valueString.indexOf('\t');
+    let spaceIndex = valueString.indexOf(' ');
+    ir2L=valueString[0];
+    ir0L=valueString[1];
+    ir1R=valueString[2];
+    ir3R=valueString[3];
+    distance=valueString.substring(tabIndex+1,spaceIndex);
+    console.log("Ir: " + ir2L+ir0L+ir1R+ir3R);
+    console.log("Distance: "+ distance);
+    console.log('Convert2Str:',valueString);
+    if (ir2L === '0') {
+        document.getElementById('ir2L').classList.remove('black');
+        document.getElementById('ir2L').classList.add('white');
+        console.log("Background ir2L is white");
+    }
+    else{
+        document.getElementById('ir2L').classList.remove('white');
+        document.getElementById('ir2L').classList.add('black');
+        console.log("Background ir2L is black");
+    }
+    if (ir0L === '0') {
+        document.getElementById('ir0L').classList.remove('black');
+        document.getElementById('ir0L').classList.add('white');
+        console.log("Background ir0L is white");
+    }
+    else{
+        document.getElementById('ir0L').classList.remove('white');
+        document.getElementById('ir0L').classList.add('black');
+        console.log("Background ir0L is black");
+    }
+    if (ir1R === '0') {
+        document.getElementById('ir1R').classList.remove('black');
+        document.getElementById('ir1R').classList.add('white');
+        console.log("Background ir1R is white");
+    }
+    else{
+        document.getElementById('ir1R').classList.remove('white');
+        document.getElementById('ir1R').classList.add('black');
+        console.log("Background ir1R is black");
+    }
+    if (ir3R === '0') {
+        document.getElementById('ir3R').classList.remove('black');
+        document.getElementById('ir3R').classList.add('white');
+        console.log("Background ir3R is white");
+    }
+    else{
+        document.getElementById('ir3R').classList.remove('white');
+        document.getElementById('ir3R').classList.add('black');
+        console.log("Background ir3R is black");
+    }
+    slider.value = distance;
+    distanceValue.textContent = `Distance: ${distance} cm`;
 }
-function stopListen() {
-    annyang.abort();
-    document.getElementById('ledOnText').innerText = "";
-    document.getElementById('ledOffText').innerText = "";
-    document.getElementById('MuteText').innerText = "";
-    document.getElementById('UnmuteText').innerText = "";
-    document.getElementById('OpenText').innerText = "";
-    document.getElementById('CloseText').innerText = "";
-}
-annyang.addCommands({
-    'turn on' : ledOn,
-    'turn off' : ledOff,
-    'open' : gripperOpen,
-    'close': gripperClose,
-    'turn left':Left,
-    'turn right':Right,
-    'forward': Forward,
-    'backward': Backward,
-    'unmute' : hornOn,
-    'mute' : hornOff,
-    'stop listen': stopListen,
-});
-// annyang.addCallback('result', function(phrases) {
-//     document.getElementById('spokenCommand').innerHTML = 'You said: ' + phrases[0];
-// });
+
+
