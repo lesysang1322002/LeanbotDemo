@@ -133,14 +133,12 @@ input[type="range"] {
     display: grid;
     grid-template-columns: repeat(15, 1fr); /* Tạo 15 cột với chiều rộng bằng nhau */
     grid-template-rows: repeat(15, 1fr);    /* Tạo 15 dòng với chiều cao bằng nhau */
-    gap: 3px; /* Khoảng cách giữa các ô */
     width:100vw;
     background-color: #7adae9;
   }
 
   .grid-item {
     border: 1px solid #000;
-    padding: 3px;
     text-align: center;
     background-color: white;
   }
