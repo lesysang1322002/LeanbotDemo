@@ -205,13 +205,13 @@ input[type="range"] {
     height:60px;
     width:30px;
   }
-  .grid-item.TB1B {
+  .grid-item.TB2A {
     grid-column: 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 13 / span 2; /* Nằm ở hàng 2 */
     height:60px;
     width:30px;
   }
-  .grid-item.TB2A {
+  .grid-item.TB1B {
     grid-column: 12; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 10 / span 2; /* Nằm ở hàng 2 */
     height:60px;
