@@ -99,7 +99,7 @@ footer {
 }
 .square {
     aspect-ratio: 1; /* Tạo hình vuông bằng cách giữ tỷ lệ khung hình */
-    padding: 20px;
+    padding: 15px;
     background-color: white;
 }
 .row{
@@ -116,13 +116,116 @@ footer {
     flex-direction: column;
     align-items: center;
 }
-.square.black {
+.grid-item.black {
     background-color: black;
 }
 
-.square.white {
+.grid-item.white {
     background-color: white; 
 }
 input[type="range"] {
     width: 100%;
 }
+.distance-text{
+    margin:0 0;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr); /* Tạo 15 cột với chiều rộng bằng nhau */
+    grid-template-rows: repeat(15, 1fr);    /* Tạo 15 dòng với chiều cao bằng nhau */
+    gap: 3px; /* Khoảng cách giữa các ô */
+    width:100vw;
+    background-color: #7adae9;
+  }
+
+  .grid-item {
+    border: 1px solid #000;
+    padding: 3px;
+    text-align: center;
+    background-color: white;
+  }
+  .grid-item.distance-text {
+    grid-column: 6 / span 5; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 2; /* Nằm ở hàng 2 */
+    font-size: 20px;
+  }
+  .grid-item.distance-slider {
+    grid-column: 3 / span 11; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 3; /* Nằm ở hàng 2 */
+  }
+  .grid-item.ir4L {
+    grid-column: 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 6; /* Nằm ở hàng 2 */
+    height:30px;
+    width:30px;
+  }
+  .grid-item.ir2L {
+    grid-column: 5; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 6; /* Nằm ở hàng 2 */
+    height:30px;
+    width:30px;
+  }
+  .grid-item.ir0L {
+    grid-column: 7; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 6; /* Nằm ở hàng 2 */
+    height:30px;
+    width:30px;
+  }
+  .grid-item.ir1R {
+    grid-column: 9; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 6; /* Nằm ở hàng 2 */
+    height:30px;
+    width:30px;
+  }
+  .grid-item.ir3R {
+    grid-column: 11; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 6; /* Nằm ở hàng 2 */
+    height:30px;
+    width:30px;
+  }
+  .grid-item.ir5R {
+    grid-column: 14; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 6; /* Nằm ở hàng 2 */
+    height:30px;
+    width:30px;
+  }
+  .grid-item.ir6L {
+    grid-column: 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 8; /* Nằm ở hàng 2 */
+    height:30px;
+    width:30px;
+  }
+  .grid-item.ir7R {
+    grid-column: 14; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 8; /* Nằm ở hàng 2 */
+    height:30px;
+    width:30px;
+  }
+  .grid-item.TB1A {
+    grid-column: 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 10 / span 2; /* Nằm ở hàng 2 */
+    height:60px;
+    width:30px;
+  }
+  .grid-item.TB1B {
+    grid-column: 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 13 / span 2; /* Nằm ở hàng 2 */
+    height:60px;
+    width:30px;
+  }
+  .grid-item.TB2A {
+    grid-column: 12; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 10 / span 2; /* Nằm ở hàng 2 */
+    height:60px;
+    width:30px;
+  }
+  .grid-item.TB2B {
+    grid-column: 12; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 13 / span 2;/* Nằm ở hàng 2 */
+    height:60px;
+    width:30px;
+  }
+/* .ir2L { background-color: var(--ir2L-color); }
+.ir0L { background-color: var(--ir0L-color); }
+.ir1R { background-color: var(--ir1R-color); }
+.ir3R { background-color: var(--ir3R-color); } */

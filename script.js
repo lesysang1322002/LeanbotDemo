@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-let ir2L,ir0L,ỉr1R,ir3R,distance;
+let ir2L,ir0L,ir1R,ir3R,ir4L,ir6L,ir5R,ir7R,TB1A,TB1B,TB2A,TB2B,distance;
 const slider = document.getElementById('distanceSlider');
 const distanceValue = document.getElementById('distanceValue');
 function handleChangedValue(event) {
@@ -112,58 +112,52 @@ function handleChangedValue(event) {
     let dataArray = new Uint8Array(data.buffer);
     let textDecoder = new TextDecoder('utf-8');
     let valueString = textDecoder.decode(dataArray);
+    console.log('Convert2Str:',valueString);
     let tabIndex = valueString.indexOf('\t');
     let spaceIndex = valueString.indexOf(' ');
-    ir2L=valueString[0];
-    ir0L=valueString[1];
-    ir1R=valueString[2];
-    ir3R=valueString[3];
+    TB1A=valueString[3];
+    TB1B=valueString[4];
+    TB2A=valueString[5];
+    TB2B=valueString[6];
+    ir6L=valueString[13];
+    ir4L=valueString[14];
+    ir2L=valueString[16];
+    ir0L=valueString[17];
+    ir1R=valueString[18];
+    ir3R=valueString[19];
+    ir5R=valueString[21];
+    ir7R=valueString[22];
     distance=valueString.substring(tabIndex+1,spaceIndex);
-    console.log("Ir: " + ir2L+ir0L+ir1R+ir3R);
-    console.log("Distance: "+ distance);
-    console.log('Convert2Str:',valueString);
-    if (ir2L === '0') {
-        document.getElementById('ir2L').classList.remove('black');
-        document.getElementById('ir2L').classList.add('white');
-        console.log("Background ir2L is white");
-    }
-    else{
-        document.getElementById('ir2L').classList.remove('white');
-        document.getElementById('ir2L').classList.add('black');
-        console.log("Background ir2L is black");
-    }
-    if (ir0L === '0') {
-        document.getElementById('ir0L').classList.remove('black');
-        document.getElementById('ir0L').classList.add('white');
-        console.log("Background ir0L is white");
-    }
-    else{
-        document.getElementById('ir0L').classList.remove('white');
-        document.getElementById('ir0L').classList.add('black');
-        console.log("Background ir0L is black");
-    }
-    if (ir1R === '0') {
-        document.getElementById('ir1R').classList.remove('black');
-        document.getElementById('ir1R').classList.add('white');
-        console.log("Background ir1R is white");
-    }
-    else{
-        document.getElementById('ir1R').classList.remove('white');
-        document.getElementById('ir1R').classList.add('black');
-        console.log("Background ir1R is black");
-    }
-    if (ir3R === '0') {
-        document.getElementById('ir3R').classList.remove('black');
-        document.getElementById('ir3R').classList.add('white');
-        console.log("Background ir3R is white");
-    }
-    else{
-        document.getElementById('ir3R').classList.remove('white');
-        document.getElementById('ir3R').classList.add('black');
-        console.log("Background ir3R is black");
-    }
+    console.log("TB: " + TB1A+TB1B+TB2A+TB2B);
+    console.log("IR: " + ir6L+ ir4L +" "+ ir2L+ir0L+ir1R+ir3R + " " +ir5R+ir7R);
+    // console.log("Distance: "+ distance);
+    updateBackground('ir2L', ir2L);
+    updateBackground('ir0L', ir0L);
+    updateBackground('ir1R', ir1R);
+    updateBackground('ir3R', ir3R);
+    updateBackground('ir4L', ir4L);
+    updateBackground('ir6L', ir6L);
+    updateBackground('ir5R', ir5R);
+    updateBackground('ir7R', ir7R);
+    updateBackground('TB1A', TB1A);
+    updateBackground('TB1B', TB1B);
+    updateBackground('TB2A', TB2A);
+    updateBackground('TB2B', TB2B);
     slider.value = distance;
-    distanceValue.textContent = `Distance: ${distance} cm`;
+    distanceValue.textContent = `${distance} cm`;
+}
+function updateBackground(id, value) {
+    const element = document.getElementById(id);
+
+    if (value === '0') {
+        element.classList.remove('black');
+        element.classList.add('white');
+        console.log(`Background ${id} is white`);
+    } else {
+        element.classList.remove('white');
+        element.classList.add('black');
+        console.log(`Background ${id} is black`);
+    }
 }
 
 
