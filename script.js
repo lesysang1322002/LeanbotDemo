@@ -106,9 +106,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 let ir2L,ir0L,ir1R,ir3R,ir4L,ir6L,ir5R,ir7R,TB1A,TB1B,TB2A,TB2B,distance="",i;
 const distanceContainer = document.getElementById("distanceContainer");
-// Kiểm tra giá trị distance và thay đổi nội dung tương ứng
-const slider = document.getElementById('distanceSlider');
 const distanceValue = document.getElementById('distanceValue');
+// Kiểm tra giá trị distance và thay đổi nội dung tương ứng
 let string="";
 function handleChangedValue(event) {
     let data = event.target.value;
@@ -138,11 +137,6 @@ function handleChangedValue(event) {
                 distance +=string[i];
                 i++;
             }
-            if (distance === "1000") {
-                distanceContainer.innerHTML = '<h6>HC-SR04 Ultrasonic distance</h6>';
-              } else {
-                distanceContainer.innerHTML = `<input type="range" id="distanceSlider" min="0" max="100" value="0" />`;
-              }
             console.log("TB: " + TB1A+TB1B+TB2A+TB2B);
             console.log("IR: " + ir6L+ ir4L +" "+ ir2L+ir0L+ir1R+ir3R + " " +ir5R+ir7R);
             console.log("Distance: " + distance);
@@ -158,9 +152,15 @@ function handleChangedValue(event) {
             updateBackground('TB1B', TB1B);
             updateBackground('TB2A', TB2A);
             updateBackground('TB2B', TB2B);
-            slider.value = distance;
-            distanceValue.textContent = `${distance} cm`;
+            if (distance === "1000") {
+                distanceContainer.innerHTML = '<h6>HC-SR04 Ultrasonic distance</h6>';
+              } else {
+                distanceContainer.innerHTML = `<input type="range" id="distanceSlider" min="0" max="100" value="0" />`;
+                const slider = document.getElementById('distanceSlider');
+                slider.value = distance;
+              }
             }
+            distanceValue.textContent = `${distance} cm`;
         string="";
     }
     else{
