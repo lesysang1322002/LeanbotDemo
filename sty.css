@@ -118,10 +118,15 @@ footer {
 }
 .grid-item.black {
     background-color: black;
+    color:white;
 }
-
+.grid-item.red{
+  background-color:red;
+  color:white;
+}
 .grid-item.white {
-    background-color: white; 
+    background-color: white;
+    color:black;
 }
 input[type="range"] {
     width: 100%;
@@ -139,8 +144,10 @@ input[type="range"] {
 
   .grid-item {
     border: 1px solid #000;
-    text-align: center;
     background-color: white;
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
   }
   .grid-item.distance-text {
     grid-column: 6 / span 5; /* Bắt đầu từ cột 6 và chiếm 4 cột */
@@ -156,48 +163,56 @@ input[type="range"] {
     grid-row: 6; /* Nằm ở hàng 2 */
     height:30px;
     width:30px;
+    border-radius: 50%;
   }
   .grid-item.ir2L {
     grid-column: 5; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 6; /* Nằm ở hàng 2 */
     height:30px;
     width:30px;
+    border-radius: 50%;
   }
   .grid-item.ir0L {
     grid-column: 7; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 6; /* Nằm ở hàng 2 */
     height:30px;
     width:30px;
+    border-radius: 50%;
   }
   .grid-item.ir1R {
     grid-column: 9; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 6; /* Nằm ở hàng 2 */
     height:30px;
     width:30px;
+    border-radius: 50%;
   }
   .grid-item.ir3R {
     grid-column: 11; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 6; /* Nằm ở hàng 2 */
     height:30px;
     width:30px;
+    border-radius: 50%;
   }
   .grid-item.ir5R {
     grid-column: 14; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 6; /* Nằm ở hàng 2 */
     height:30px;
     width:30px;
+    border-radius: 50%;
   }
   .grid-item.ir6L {
     grid-column: 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 8; /* Nằm ở hàng 2 */
     height:30px;
     width:30px;
+    border-radius: 50%;
   }
   .grid-item.ir7R {
     grid-column: 14; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 8; /* Nằm ở hàng 2 */
     height:30px;
     width:30px;
+    border-radius: 50%;
   }
   .grid-item.TB1A {
     grid-column: 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
@@ -222,6 +237,10 @@ input[type="range"] {
     grid-row: 13 / span 2;/* Nằm ở hàng 2 */
     height:60px;
     width:30px;
+  }
+  p{
+    font-size:10px;
+    margin: 0;
   }
 /* .ir2L { background-color: var(--ir2L-color); }
 .ir0L { background-color: var(--ir0L-color); }
