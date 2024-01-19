@@ -139,7 +139,7 @@ input[type="range"] {
     grid-template-columns: repeat(15, 1fr); /* Tạo 15 cột với chiều rộng bằng nhau */
     grid-template-rows: repeat(15, 1fr);    /* Tạo 15 dòng với chiều cao bằng nhau */
     width:100vw;
-    background-color: #7adae9;
+    /* background-color: #7adae9; */
   }
 
   .grid-item {
@@ -150,13 +150,16 @@ input[type="range"] {
     justify-content: center; /* Căn giữa theo chiều ngang */
   }
   .grid-item.distance-text {
-    grid-column: 6 / span 5; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-column: 5 / span 7; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 2; /* Nằm ở hàng 2 */
     font-size: 20px;
   }
-  .grid-item.distance-slider {
+  .distance-slider {
     grid-column: 3 / span 11; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 3; /* Nằm ở hàng 2 */
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
   }
   .grid-item.ir4L {
     grid-column: 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
@@ -219,28 +222,46 @@ input[type="range"] {
     grid-row: 10 / span 2; /* Nằm ở hàng 2 */
     height:60px;
     width:30px;
+    border-radius: 10%;
   }
   .grid-item.TB2A {
     grid-column: 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 13 / span 2; /* Nằm ở hàng 2 */
     height:60px;
     width:30px;
+    border-radius: 10%;
   }
   .grid-item.TB1B {
     grid-column: 12; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 10 / span 2; /* Nằm ở hàng 2 */
     height:60px;
     width:30px;
+    border-radius: 10%;
   }
   .grid-item.TB2B {
     grid-column: 12; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 13 / span 2;/* Nằm ở hàng 2 */
     height:60px;
     width:30px;
+    border-radius: 10%;
+  }
+  .Gripper{
+    grid-column: 6 / span 5; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 4;
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+  }
+  .button {
+    align-items: center; 
+    background-color: #4b89b9 !important; 
+    width: 100px; /* Đảm bảo kích thước tối đa không vượt quá kích thước của phần tử cha */
+    height: 20px; 
   }
   p{
     font-size:10px;
     margin: 0;
+    font-weight: bold;
   }
 /* .ir2L { background-color: var(--ir2L-color); }
 .ir0L { background-color: var(--ir0L-color); }

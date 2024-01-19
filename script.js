@@ -20,6 +20,7 @@ function toggleFunction() {
         document.getElementById("buttonText").innerText = "Scan";
         disconnect();
         requestBluetoothDevice();
+        distanceValue.textContent="HC-SR04 Ultrasonic distance";
     }
 }
 function requestBluetoothDevice() {
@@ -105,8 +106,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 let ir2L,ir0L,ir1R,ir3R,ir4L,ir6L,ir5R,ir7R,TB1A,TB1B,TB2A,TB2B,distance="",i;
-const distanceContainer = document.getElementById("distanceContainer");
+
 const distanceValue = document.getElementById('distanceValue');
+const slider = document.getElementById('distanceSlider');
+
 // Kiểm tra giá trị distance và thay đổi nội dung tương ứng
 let string="";
 function handleChangedValue(event) {
@@ -153,14 +156,12 @@ function handleChangedValue(event) {
             updateBackground('TB2A', TB2A);
             updateBackground('TB2B', TB2B);
             if (distance === "1000") {
-                distanceContainer.innerHTML = '<h6>HC-SR04 Ultrasonic distance</h6>';
+                distanceValue.textContent="HC-SR04 Ultrasonic distance";
               } else {
-                distanceContainer.innerHTML = `<input type="range" id="distanceSlider" min="0" max="100" value="0" />`;
-                const slider = document.getElementById('distanceSlider');
-                slider.value = distance;
+                distanceValue.textContent = `${distance} cm`;
               }
-            }
-            distanceValue.textContent = `${distance} cm`;
+            slider.value = distance;
+        }
         string="";
     }
     else{
@@ -190,6 +191,24 @@ function updateBackground(id, value) {
         console.log(`Background ${id} is black`);
         }
     }
+}
+let check=false;
+function ToggleGripper(){
+    if(check){
+        document.getElementById("GripperText").innerText="Gripper Close";
+        gripperOpen(); 
+    }
+    else{
+        document.getElementById("GripperText").innerText="Gripper Open";
+        gripperClose();
+    }
+    check=!check;
+}
+function gripperClose(){
+    send("X");
+}
+function gripperOpen(){
+    send("x");
 }
 // let tabIndex = valueString.indexOf('\t');
 // let spaceIndex = valueString.indexOf(' ');

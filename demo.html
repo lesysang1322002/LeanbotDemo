@@ -28,8 +28,11 @@
         </div>
     </nav>
     <div class="grid-container">
-        <div class="grid-item distance-text"><h4 id="distanceValue" style="margin:0px 0px";>0 cm</h4></div>
-        <div class="grid-item distance-slider" id="distanceContainer"><input type="range" id="distanceSlider" min="0" max="100" value="0" /></div>
+        <div class="grid-item distance-text"><p id="distanceValue" style="margin:0px 0px";>HC-SR04 Ultrasonic distance</p></div>
+        <div class="distance-slider"><input type="range" id="distanceSlider" min="0" max="100" value="0" /></div>
+        <div class="Gripper">
+            <button onclick="ToggleGripper()" class="button"><p id="GripperText">Gripper Close</p></button>
+        </div>
         <div class="grid-item ir4L" id="ir4L">
             <p style="margin:0px 0px";>ir4L</p>
         </div>
@@ -52,7 +55,7 @@
             <p style="margin:0px 0px";>ir6L</p>
         </div>
         <div class="grid-item ir7R" id="ir7R">
-            <p style="margin:0px 0px";>ir7LR</p>
+            <p style="margin:0px 0px";>ir7R</p>
         </div>
         <div class="grid-item TB1A" id="TB1A">
             <p style="margin:0px 0px";>TB1A</p>  
