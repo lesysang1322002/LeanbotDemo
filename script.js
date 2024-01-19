@@ -21,6 +21,7 @@ function toggleFunction() {
         disconnect();
         requestBluetoothDevice();
         distanceValue.textContent="HC-SR04 Ultrasonic distance";
+        document.getElementById("GripperText").innerText="Gripper Close";
     }
 }
 function requestBluetoothDevice() {
