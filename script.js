@@ -211,6 +211,18 @@ function gripperClose(){
 function gripperOpen(){
     send("x");
 }
+function TestBuzzer(){
+    send("z");
+}
+function TestGripper(){
+    send("p");
+}
+function TestLed(){
+    send("e");
+}
+function TestMotor(){
+    send("o");
+}
 // let tabIndex = valueString.indexOf('\t');
 // let spaceIndex = valueString.indexOf(' ');
 

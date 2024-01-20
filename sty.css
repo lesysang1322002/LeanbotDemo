@@ -149,10 +149,14 @@ input[type="range"] {
     align-items: center; /* Căn giữa theo chiều dọc */
     justify-content: center; /* Căn giữa theo chiều ngang */
   }
-  .grid-item.distance-text {
+  .distance-text {
     grid-column: 5 / span 7; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 2; /* Nằm ở hàng 2 */
     font-size: 20px;
+    background-color: white;
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
   }
   .distance-slider {
     grid-column: 3 / span 11; /* Bắt đầu từ cột 6 và chiếm 4 cột */
@@ -222,28 +226,28 @@ input[type="range"] {
     grid-row: 10 / span 2; /* Nằm ở hàng 2 */
     height:60px;
     width:30px;
-    border-radius: 10%;
+    border-radius: 5px;
   }
   .grid-item.TB2A {
     grid-column: 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 13 / span 2; /* Nằm ở hàng 2 */
     height:60px;
     width:30px;
-    border-radius: 10%;
+    border-radius: 5px;
   }
   .grid-item.TB1B {
     grid-column: 12; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 10 / span 2; /* Nằm ở hàng 2 */
     height:60px;
     width:30px;
-    border-radius: 10%;
+    border-radius: 5px;
   }
   .grid-item.TB2B {
     grid-column: 12; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 13 / span 2;/* Nằm ở hàng 2 */
     height:60px;
     width:30px;
-    border-radius: 10%;
+    border-radius: 5px;
   }
   .Gripper{
     grid-column: 6 / span 5; /* Bắt đầu từ cột 6 và chiếm 4 cột */
@@ -257,11 +261,50 @@ input[type="range"] {
     background-color: #4b89b9 !important; 
     width: 100px; /* Đảm bảo kích thước tối đa không vượt quá kích thước của phần tử cha */
     height: 20px; 
+    border-radius: 5px;
   }
   p{
     font-size:10px;
     margin: 0;
     font-weight: bold;
+    text-align: center;
+  }
+  .testMotor{
+    grid-column: 9 / span 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 9 / span 2;
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+  }
+  .testLed{
+    grid-column: 6 / span 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 9 / span 2;
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center;
+  }
+  .testBuzzer{
+    grid-column: 6 / span 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 14 / span 2;
+    background-color: white;
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; 
+  }
+  .testGripper{
+    grid-column: 9 / span 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-row: 14 / span 2;
+    background-color: white;
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+  }
+  .buttonTest {
+    align-items: center; 
+    background-color: #4b89b9 !important; 
+    width: 50px; /* Đảm bảo kích thước tối đa không vượt quá kích thước của phần tử cha */
+    height: 50px; 
+    border-radius: 5px;
   }
 /* .ir2L { background-color: var(--ir2L-color); }
 .ir0L { background-color: var(--ir0L-color); }
