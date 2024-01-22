@@ -13,7 +13,7 @@ function isWebBluetoothEnabled() {
 }
 const button = document.getElementById("toggleButton");
 function toggleFunction() {
-
+    let gridItems = document.querySelectorAll('.grid-item');
     if (button.innerText == "Scan") {
         requestBluetoothDevice();
     } else {
@@ -21,7 +21,10 @@ function toggleFunction() {
         disconnect();
         requestBluetoothDevice();
         distanceValue.textContent="HC-SR04 Ultrasonic distance";
-        document.getElementById("GripperText").innerText="Gripper Close";
+        gridItems.forEach(item => {
+            item.style.border = "3px solid #000";
+        });
+        slider.value=0;
     }
 }
 function requestBluetoothDevice() {
@@ -112,6 +115,10 @@ const distanceValue = document.getElementById('distanceValue');
 const slider = document.getElementById('distanceSlider');
 
 // Kiểm tra giá trị distance và thay đổi nội dung tương ứng
+let checkArray = [];
+let check0 = [];
+let check1 = [];
+let checksum = []; 
 let string="";
 function handleChangedValue(event) {
     let data = event.target.value;
@@ -123,18 +130,57 @@ function handleChangedValue(event) {
         string+=valueString;
         console.log(string);
         if(string[0]=='T'){
-            TB1A=string[3];
-            TB1B=string[4];
-            TB2A=string[5];
-            TB2B=string[6];
-            ir6L=string[13];
-            ir4L=string[14];
-            ir2L=string[16];
-            ir0L=string[17];
-            ir1R=string[18];
-            ir3R=string[19];
-            ir5R=string[21];
-            ir7R=string[22];
+            TB1A=string[3];checkArray[0]=TB1A;
+            TB1B=string[4];checkArray[1]=TB1B;
+            TB2A=string[5];checkArray[2]=TB2A;
+            TB2B=string[6];checkArray[3]=TB2B;
+            ir6L=string[13];checkArray[4]=ir6L;
+            ir4L=string[14];checkArray[5]=ir4L;
+            ir2L=string[16];checkArray[6]=ir2L;
+            ir0L=string[17];checkArray[7]=ir0L;
+            ir1R=string[18];checkArray[8]=ir1R;
+            ir3R=string[19];checkArray[9]=ir3R;
+            ir5R=string[21];checkArray[10]=ir5R;
+            ir7R=string[22];checkArray[11]=ir7R;
+            console.log(checkArray);
+            for(let i=0;i<12;i++){
+                if(checkArray[i]==='1') {
+                    check1[i]=1;
+                    console.log("Check 1 is true");
+                }
+                if(checkArray[i]==='0') check0[i]=1;
+                if(check0[i] && check1[i]) checksum[i]=1;
+            }
+            console.log(checksum);
+            for (let i = 0; i < checksum.length; i++) {
+                let elementId = "";  // Lưu trữ id của thẻ cần thay đổi
+                switch (i) {
+                    case 0: elementId = "TB1A"; break;
+                    case 1: elementId = "TB1B"; break;
+                    case 2: elementId = "TB2A"; break;
+                    case 3: elementId = "TB2B"; break;
+                    case 4: elementId = "ir6L"; break;
+                    case 5: elementId = "ir4L"; break;
+                    case 6: elementId = "ir2L"; break;
+                    case 7: elementId = "ir0L"; break;
+                    case 8: elementId = "ir1R"; break;
+                    case 9: elementId = "ir3R"; break;
+                    case 10: elementId = "ir5R"; break;
+                    case 11: elementId = "ir7R"; break;
+                    default: break;
+                }
+                // Lấy thẻ DOM bằng cách sử dụng id
+                let element = document.getElementById(elementId);
+            
+                // Kiểm tra giá trị của checkArray[i]
+                if (checksum[i] === 1) {
+                    // Nếu checkArray[i] bằng 1, thì đổi màu border của thẻ đó
+                    element.style.border = "3px solid green";  // Đổi thành màu đỏ, bạn có thể thay đổi màu sắc tùy ý
+                }
+                else{
+                    element.style.border = "3px solid black";
+                }
+            }
             i=26;
             distance="";
             while(string[i]!=' '){
@@ -172,6 +218,13 @@ function handleChangedValue(event) {
 
 function log(text){
     
+}
+
+function checkIrTB(){
+    check_array=[''];
+    check0=[];
+    check1=[];
+
 }
 function updateBackground(id, value) {
     const element = document.getElementById(id);
