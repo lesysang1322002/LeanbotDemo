@@ -25,6 +25,9 @@ function toggleFunction() {
             item.style.border = "3px solid #000";
         });
         slider.value=0;
+        checksum= Array(12).fill(0);
+        check0= Array(12).fill(0);
+        check1= Array(12).fill(0);
     }
 }
 function requestBluetoothDevice() {
