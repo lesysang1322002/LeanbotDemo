@@ -149,7 +149,6 @@ function handleChangedValue(event) {
             for(let i=0;i<12;i++){
                 if(checkArray[i]==='1') {
                     check1[i]=1;
-                    console.log("Check 1 is true");
                 }
                 if(checkArray[i]==='0') check0[i]=1;
                 if(check0[i] && check1[i]) checksum[i]=1;
