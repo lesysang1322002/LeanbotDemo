@@ -140,10 +140,11 @@ input[type="range"] {
     grid-template-rows: repeat(15, 1fr);    /* Tạo 15 dòng với chiều cao bằng nhau */
     width:100vw;
     /* background-color: #7adae9; */
-  }
+}
 
   .grid-item {
-    border: 3px solid #000;
+
+    border: 3px solid #AAAAAA;
     background-color: white;
     display: flex;
     align-items: center; /* Căn giữa theo chiều dọc */
@@ -225,28 +226,28 @@ input[type="range"] {
     grid-column: 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 10 / span 2; /* Nằm ở hàng 2 */
     height:60px;
-    width:30px;
+    width:33px;
     border-radius: 5px;
   }
   .grid-item.TB2A {
     grid-column: 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 13 / span 2; /* Nằm ở hàng 2 */
     height:60px;
-    width:30px;
+    width:33px;
     border-radius: 5px;
   }
   .grid-item.TB1B {
     grid-column: 12; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 10 / span 2; /* Nằm ở hàng 2 */
     height:60px;
-    width:30px;
+    width:33px;
     border-radius: 5px;
   }
   .grid-item.TB2B {
     grid-column: 12; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 13 / span 2;/* Nằm ở hàng 2 */
     height:60px;
-    width:30px;
+    width:33px;
     border-radius: 5px;
   }
   .Gripper{
@@ -261,7 +262,7 @@ input[type="range"] {
     background-color: #4b89b9 !important; 
     width: 100px; /* Đảm bảo kích thước tối đa không vượt quá kích thước của phần tử cha */
     height: 20px; 
-    border-radius: 5px;
+    border-radius: 5px solid #AAAAAA;
   }
   p{
     font-size:10px;
@@ -270,29 +271,28 @@ input[type="range"] {
     text-align: center;
   }
   .testGripper{
-    grid-column: 9 / span 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-column: 9 / span 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 10 / span 2;
     display: flex;
     align-items: center; /* Căn giữa theo chiều dọc */
     justify-content: center; /* Căn giữa theo chiều ngang */
   }
   .testLed{
-    grid-column: 6 / span 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-column: 5 / span 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 10 / span 2;
     display: flex;
     align-items: center; /* Căn giữa theo chiều dọc */
     justify-content: center;
   }
   .testBuzzer{
-    grid-column: 6 / span 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-column: 5 / span 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 13 / span 2;
-    background-color: white;
     display: flex;
     align-items: center; /* Căn giữa theo chiều dọc */
     justify-content: center; 
   }
   .testMotor{
-    grid-column: 9 / span 2; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+    grid-column: 9 / span 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
     grid-row: 13 / span 2;
     background-color: white;
     display: flex;

@@ -22,7 +22,7 @@ function toggleFunction() {
         requestBluetoothDevice();
         distanceValue.textContent="HC-SR04 Ultrasonic distance";
         gridItems.forEach(item => {
-            item.style.border = "3px solid #000";
+            item.style.border = "3px solid #AAAAAA";
         });
         slider.value=0;
         checksum= Array(12).fill(0);
@@ -180,7 +180,7 @@ function handleChangedValue(event) {
                     element.style.border = "3px solid green";  // Đổi thành màu đỏ, bạn có thể thay đổi màu sắc tùy ý
                 }
                 else{
-                    element.style.border = "3px solid black";
+                    element.style.border = "3px solid #AAAAAA";
                 }
             }
             i=26;
