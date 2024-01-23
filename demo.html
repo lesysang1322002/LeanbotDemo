@@ -28,8 +28,12 @@
         </div>
     </nav>
     <div class="grid-container">
-        <div class="distance-text"><p id="distanceValue" style="margin:0px 0px";>HC-SR04 Ultrasonic distance</p></div>
+        <div class="distance-text"><h5 id="distanceValue" style="margin:0px 0px";>HC-SR04 Ultrasonic distance</h5></div>
         <div class="distance-slider"><input type="range" id="distanceSlider" min="0" max="100" value="0" /></div>
+        <div class="slider-text10"><p id="text10cm" style="margin:0px 0px";>10cm</p></div>
+        <div class="slider-text30"><p id="text30cm" style="margin:0px 0px";>30cm</p></div>
+        <div class="angleL"><p id="textangleL" style="margin:0px 0px";>L: </p></div>
+        <div class="angleR"><p id="textangleR" style="margin:0px 0px";>R: </p></div>
         <!-- <div class="Gripper">
             <button onclick="ToggleGripper()" class="button"><p id="GripperText">Gripper Close</p></button>
         </div> -->
@@ -70,16 +74,16 @@
             <p style="margin:0px 0px";>TB2B</p>
         </div>
         <div class="testMotor">
-            <button onclick="TestMotor()" class="buttonTest"><p id="testMotor" style="margin:0px 0px";>Motion Demo</p></button>
+            <button onclick="TestMotor()" class="buttonTest" id="testMotor"><p style="margin:0px 0px";>Motion Demo</p></button>
         </div>
         <div class="testLed">
-            <button onclick="TestLed()" class="buttonTest"><p id="testLed" style="margin:0px 0px";>RGB Leds Demo</p></button>
+            <button onclick="TestLed()" class="buttonTest" id="testLed"><p style="margin:0px 0px";>RGB Leds Demo</p></button>
         </div>
         <div class="testGripper">
-            <button onclick="TestGripper()" class="buttonTest"><p id="testGripper" style="margin:0px 0px";>Gripper Demo</p></button>
+            <button onclick="TestGripper()" class="buttonTest" id="testGripper"><p style="margin:0px 0px";>Gripper Demo</p></button>
         </div>
         <div class="testBuzzer">
-            <button onclick="TestBuzzer()" class="buttonTest"><p id="testBuzzer" style="margin:0px 0px";>Buzzer Demo</p></button>
+            <button onclick="TestBuzzer()" class="buttonTest" id="testBuzzer"><p  style="margin:0px 0px";>Buzzer Demo</p></button>
         </div>
     </div>
 </body>

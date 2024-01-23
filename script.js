@@ -14,6 +14,8 @@ function isWebBluetoothEnabled() {
 const button = document.getElementById("toggleButton");
 function toggleFunction() {
     let gridItems = document.querySelectorAll('.grid-item');
+    let buttonsTest = document.querySelectorAll('.buttonTest');
+    let elements = document.querySelectorAll("#text10cm, #text30cm");
     if (button.innerText == "Scan") {
         requestBluetoothDevice();
     } else {
@@ -23,6 +25,12 @@ function toggleFunction() {
         distanceValue.textContent="HC-SR04 Ultrasonic distance";
         gridItems.forEach(item => {
             item.style.border = "3px solid #AAAAAA";
+        });
+        buttonsTest.forEach(item => {
+            item.style.border = "3px solid #AAAAAA";
+        });
+        elements.forEach(item => {
+            item.style.color = "#AAAAAA";
         });
         slider.value=0;
         checksum= Array(12).fill(0);
@@ -112,9 +120,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-let ir2L,ir0L,ir1R,ir3R,ir4L,ir6L,ir5R,ir7R,TB1A,TB1B,TB2A,TB2B,distance="",i;
+let ir2L,ir0L,ir1R,ir3R,ir4L,ir6L,ir5R,ir7R,TB1A,TB1B,TB2A,TB2B,distance="",i,angleL,angleR;
 
 const distanceValue = document.getElementById('distanceValue');
+const angleLValue = document.getElementById('textangleL');
+const angleRValue = document.getElementById('textangleR');
+
 const slider = document.getElementById('distanceSlider');
 
 // Kiểm tra giá trị distance và thay đổi nội dung tương ứng
@@ -145,7 +156,7 @@ function handleChangedValue(event) {
             ir3R=string[19];checkArray[9]=ir3R;
             ir5R=string[21];checkArray[10]=ir5R;
             ir7R=string[22];checkArray[11]=ir7R;
-            console.log(checkArray);
+            // console.log(checkArray);
             for(let i=0;i<12;i++){
                 if(checkArray[i]==='1') {
                     check1[i]=1;
@@ -153,7 +164,7 @@ function handleChangedValue(event) {
                 if(checkArray[i]==='0') check0[i]=1;
                 if(check0[i] && check1[i]) checksum[i]=1;
             }
-            console.log(checksum);
+            // console.log(checksum);
             for (let i = 0; i < checksum.length; i++) {
                 let elementId = "";  // Lưu trữ id của thẻ cần thay đổi
                 switch (i) {
@@ -189,9 +200,19 @@ function handleChangedValue(event) {
                 distance +=string[i];
                 i++;
             }
+            let LIndex = string.indexOf('L');
+            let RIndex = string.indexOf('R',LIndex);
+            let NLIndex = string.indexOf('\n');
+            angleL=string.substring(LIndex+2,RIndex);
+            console.log("AngleL: " + angleL);
+            angleR=string.substring(RIndex+2,NLIndex);
+            console.log("AngleR: " + angleR);
             console.log("TB: " + TB1A+TB1B+TB2A+TB2B);
             console.log("IR: " + ir6L+ ir4L +" "+ ir2L+ir0L+ir1R+ir3R + " " +ir5R+ir7R);
             console.log("Distance: " + distance);
+            console.log("Gripper: " + angleL + " " + angleR);
+            angleLValue.textContent = `L: ${angleL}`;
+            angleRValue.textContent = `R: ${angleR}`;
             updateBackground('ir2L', ir2L);
             updateBackground('ir0L', ir0L);
             updateBackground('ir1R', ir1R);
@@ -204,6 +225,14 @@ function handleChangedValue(event) {
             updateBackground('TB1B', TB1B);
             updateBackground('TB2A', TB2A);
             updateBackground('TB2B', TB2B);
+            if(distance=='10'){
+                element = document.getElementById("text10cm");
+                element.style.color = "green";
+            }
+            if(distance=='30'){
+                element = document.getElementById("text30cm");
+                element.style.color = "green";
+            }
             if (distance === "1000") {
                 distanceValue.textContent="HC-SR04 Ultrasonic distance";
               } else {
@@ -234,17 +263,17 @@ function updateBackground(id, value) {
     if (value === '0') {
         element.classList.remove('black');
         element.classList.add('white');
-        console.log(`Background ${id} is white`);
+        // console.log(`Background ${id} is white`);
     } else {
         if(id=="TB1A" || id=="TB1B" ||id=="TB2A" || id=="TB2B" ){
             element.classList.remove('white');
             element.classList.add('red');
-            console.log(`Background ${id} is red`);
+            // console.log(`Background ${id} is red`);
         }
         else{
         element.classList.remove('white');
         element.classList.add('black');
-        console.log(`Background ${id} is black`);
+        // console.log(`Background ${id} is black`);
         }
     }
 }
@@ -267,17 +296,24 @@ function gripperOpen(){
     send("x");
 }
 function TestBuzzer(){
+    element = document.getElementById("testBuzzer");
+    element.style.border = "3px solid green";
     send("z");
 }
 function TestGripper(){
+    element = document.getElementById("testGripper");
+    element.style.border = "3px solid green";
     send("p");
 }
 function TestLed(){
+    element = document.getElementById("testLed");
+    element.style.border = "3px solid green";
     send("e");
 }
 function TestMotor(){
+    element = document.getElementById("testMotor");
+    element.style.border = "3px solid green";
     send("o");
 }
 // let tabIndex = valueString.indexOf('\t');
 // let spaceIndex = valueString.indexOf(' ');
-
