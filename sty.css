@@ -144,7 +144,7 @@ input[type="range"] {
 
 .grid-item {
 
-  border: 3px solid #AAAAAA;
+  border: 3px solid #CCCCCC;
   background-color: white;
   display: flex;
   align-items: center; /* Căn giữa theo chiều dọc */
@@ -175,7 +175,11 @@ input[type="range"] {
   grid-row: 4;
 }
 #text10cm, #text30cm {
-  color: #AAAAAA; /* Màu xám cho văn bản */
+  color: #CCCCCC; /* Màu xám cho văn bản */
+  font-size:13px;
+}
+#distanceValue{
+  font-size:13px;
 }
 .angleL{
   grid-column: 4;
@@ -187,55 +191,55 @@ input[type="range"] {
 }
 .grid-item.ir4L {
   grid-column: 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
-  grid-row: 6; /* Nằm ở hàng 2 */
+  grid-row: 8; /* Nằm ở hàng 2 */
   height:30px;
   width:30px;
   border-radius: 50%;
 }
 .grid-item.ir2L {
   grid-column: 5; /* Bắt đầu từ cột 6 và chiếm 4 cột */
-  grid-row: 6; /* Nằm ở hàng 2 */
+  grid-row: 8; /* Nằm ở hàng 2 */
   height:30px;
   width:30px;
   border-radius: 50%;
 }
 .grid-item.ir0L {
   grid-column: 7; /* Bắt đầu từ cột 6 và chiếm 4 cột */
-  grid-row: 6; /* Nằm ở hàng 2 */
+  grid-row: 8; /* Nằm ở hàng 2 */
   height:30px;
   width:30px;
   border-radius: 50%;
 }
 .grid-item.ir1R {
   grid-column: 9; /* Bắt đầu từ cột 6 và chiếm 4 cột */
-  grid-row: 6; /* Nằm ở hàng 2 */
+  grid-row: 8; /* Nằm ở hàng 2 */
   height:30px;
   width:30px;
   border-radius: 50%;
 }
 .grid-item.ir3R {
   grid-column: 11; /* Bắt đầu từ cột 6 và chiếm 4 cột */
-  grid-row: 6; /* Nằm ở hàng 2 */
+  grid-row: 8; /* Nằm ở hàng 2 */
   height:30px;
   width:30px;
   border-radius: 50%;
 }
 .grid-item.ir5R {
   grid-column: 13; /* Bắt đầu từ cột 6 và chiếm 4 cột */
-  grid-row: 6; /* Nằm ở hàng 2 */
+  grid-row: 8; /* Nằm ở hàng 2 */
   height:30px;
   width:30px;
   border-radius: 50%;
 }
 .grid-item.ir6L {
-  grid-column: 1; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+  grid-column: 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 6; /* Nằm ở hàng 2 */
   height:30px;
   width:30px;
   border-radius: 50%;
 }
 .grid-item.ir7R {
-  grid-column: 15; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+  grid-column: 13; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 6; /* Nằm ở hàng 2 */
   height:30px;
   width:30px;
@@ -281,7 +285,7 @@ input[type="range"] {
   background-color: #4b89b9 !important; 
   width: 100px; /* Đảm bảo kích thước tối đa không vượt quá kích thước của phần tử cha */
   height: 20px; 
-  border-radius: 5px solid #AAAAAA;
+  border-radius: 5px solid #CCCCCC;
 }
 p{
   font-size:10px;
@@ -324,5 +328,5 @@ p{
   width: 62px; /* Đảm bảo kích thước tối đa không vượt quá kích thước của phần tử cha */
   height: 60px; 
   border-radius: 5px;
-  border: 3px solid #AAAAAA;
+  border: 3px solid #CCCCCC;
 }

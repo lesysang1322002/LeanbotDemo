@@ -1,3 +1,4 @@
+let element1 = document.getElementById("distanceValue");
 var bleService = '0000ffe0-0000-1000-8000-00805f9b34fb';
 var bleCharacteristic = '0000ffe1-0000-1000-8000-00805f9b34fb';
 var gattCharacteristic;
@@ -24,18 +25,22 @@ function toggleFunction() {
         requestBluetoothDevice();
         distanceValue.textContent="HC-SR04 Ultrasonic distance";
         gridItems.forEach(item => {
-            item.style.border = "3px solid #AAAAAA";
+            item.style.border = "3px solid #CCCCCC";
         });
         buttonsTest.forEach(item => {
-            item.style.border = "3px solid #AAAAAA";
+            item.style.border = "3px solid #CCCCCC";
         });
         elements.forEach(item => {
-            item.style.color = "#AAAAAA";
+            item.style.color = "#CCCCCC";
         });
         slider.value=0;
         checksum= Array(12).fill(0);
         check0= Array(12).fill(0);
         check1= Array(12).fill(0);
+        check10cm=false;
+        check30cm=false;
+        distanceValue.style.fontSize = "13px";
+        element1.style.color = "black";
     }
 }
 function requestBluetoothDevice() {
@@ -64,6 +69,7 @@ navigator.bluetooth.requestDevice({
     .then(characteristic => {
         logstatus(dev.name);
         document.getElementById("buttonText").innerText = "Rescan";
+        checkbutton=true;
     gattCharacteristic = characteristic
     gattCharacteristic.addEventListener('characteristicvaluechanged', handleChangedValue)
     return gattCharacteristic.startNotifications()
@@ -129,6 +135,7 @@ const angleRValue = document.getElementById('textangleR');
 const slider = document.getElementById('distanceSlider');
 
 // Kiểm tra giá trị distance và thay đổi nội dung tương ứng
+let check10cm=false,check30cm=false;
 let checkArray = [];
 let check0 = [];
 let check1 = [];
@@ -143,6 +150,28 @@ function handleChangedValue(event) {
     if(valueString[n-1]=='\n'){
         string+=valueString;
         console.log(string);
+        let s = string.length;
+        let stringfill=string.substring(0,s-2);
+        if(stringfill == 'Gripper'){
+            element = document.getElementById("testGripper");
+            element.style.border = "3px solid green";
+            console.log("String is Gripper");
+        }
+        if(stringfill == 'Motion'){
+            element = document.getElementById("testMotor");
+            element.style.border = "3px solid green";
+            console.log("String is Motion");
+        }
+        if(stringfill == 'RGBLeds'){
+            element = document.getElementById("testLed");
+            element.style.border = "3px solid green";
+            console.log("String is RGBLeds");
+        }
+        if(stringfill == 'Buzzer'){
+            element = document.getElementById("testBuzzer");
+            element.style.border = "3px solid green"; 
+            console.log("String is Buzzer");     
+        }
         if(string[0]=='T'){
             TB1A=string[3];checkArray[0]=TB1A;
             TB1B=string[4];checkArray[1]=TB1B;
@@ -191,7 +220,7 @@ function handleChangedValue(event) {
                     element.style.border = "3px solid green";  // Đổi thành màu đỏ, bạn có thể thay đổi màu sắc tùy ý
                 }
                 else{
-                    element.style.border = "3px solid #AAAAAA";
+                    element.style.border = "3px solid #CCCCCC";
                 }
             }
             i=26;
@@ -200,12 +229,18 @@ function handleChangedValue(event) {
                 distance +=string[i];
                 i++;
             }
-            let LIndex = string.indexOf('L');
-            let RIndex = string.indexOf('R',LIndex);
+            let GIndex = string.indexOf('G');
+            let RIndex = string.indexOf('R',GIndex);
             let NLIndex = string.indexOf('\n');
-            angleL=string.substring(LIndex+2,RIndex);
+            let j = RIndex + 2;
+            angleL="";
+            while(string[j] != ' '){
+                angleL += string[j];
+                j++;
+            }
+            let d = angleL.length;
             console.log("AngleL: " + angleL);
-            angleR=string.substring(RIndex+2,NLIndex);
+            angleR=string.substring(RIndex+d+3,NLIndex);
             console.log("AngleR: " + angleR);
             console.log("TB: " + TB1A+TB1B+TB2A+TB2B);
             console.log("IR: " + ir6L+ ir4L +" "+ ir2L+ir0L+ir1R+ir3R + " " +ir5R+ir7R);
@@ -226,17 +261,24 @@ function handleChangedValue(event) {
             updateBackground('TB2A', TB2A);
             updateBackground('TB2B', TB2B);
             if(distance=='10'){
-                element = document.getElementById("text10cm");
+                var element = document.getElementById("text10cm");
                 element.style.color = "green";
+                check10cm=true;
             }
             if(distance=='30'){
-                element = document.getElementById("text30cm");
+                var element = document.getElementById("text30cm");
                 element.style.color = "green";
+                check30cm=true;
+            }
+            if(check10cm && check30cm){
+                element1.style.color = "green";
             }
             if (distance === "1000") {
                 distanceValue.textContent="HC-SR04 Ultrasonic distance";
+                distanceValue.style.fontSize = "13px";
               } else {
                 distanceValue.textContent = `${distance} cm`;
+                distanceValue.style.fontSize = "20px";
               }
             slider.value = distance;
         }
@@ -277,43 +319,18 @@ function updateBackground(id, value) {
         }
     }
 }
-let check=false;
-function ToggleGripper(){
-    if(check){
-        document.getElementById("GripperText").innerText="Gripper Close";
-        gripperOpen(); 
-    }
-    else{
-        document.getElementById("GripperText").innerText="Gripper Open";
-        gripperClose();
-    }
-    check=!check;
-}
-function gripperClose(){
-    send("X");
-}
-function gripperOpen(){
-    send("x");
-}
+
 function TestBuzzer(){
-    element = document.getElementById("testBuzzer");
-    element.style.border = "3px solid green";
-    send("z");
+    send("Buzzer");
 }
 function TestGripper(){
-    element = document.getElementById("testGripper");
-    element.style.border = "3px solid green";
-    send("p");
+    send("Gripper");
 }
 function TestLed(){
-    element = document.getElementById("testLed");
-    element.style.border = "3px solid green";
-    send("e");
+    send("RGBLeds");
 }
 function TestMotor(){
-    element = document.getElementById("testMotor");
-    element.style.border = "3px solid green";
-    send("o");
+    send("Motion");
 }
 // let tabIndex = valueString.indexOf('\t');
 // let spaceIndex = valueString.indexOf(' ');
