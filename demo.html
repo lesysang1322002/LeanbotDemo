@@ -28,15 +28,16 @@
         </div>
     </nav>
         <div class="grid-container">
+        <div class="container-slider" id="ctn-slider"></div>
         <div class="distance-text"><p id="distanceValue" style="margin:0px 0px";>HC-SR04 Ultrasonic distance</p></div>
-        <div class="distance-slider"><input type="range" id="distanceSlider" min="0" max="100" value="0" /></div>
+        <div class="distance-slider" id="slider" ><input type="range" id="distanceSlider" min="0" max="100" value="0" /></div>
         <div class="slider-text10"><p id="text10cm" style="margin:0px 0px";>10cm</p></div>
         <div class="slider-text30"><p id="text30cm" style="margin:0px 0px";>30cm</p></div>
-        <div class="angleL"><p id="textangleL" style="margin:0px 0px";>L: </p></div>
-        <div class="angleR"><p id="textangleR" style="margin:0px 0px";>R: </p></div>
-        <!-- <div class="Gripper">
-            <button onclick="ToggleGripper()" class="button"><p id="GripperText">Gripper Close</p></button>
-        </div> -->
+        <div class="angleL"><p style="margin:0px 0px";>Left</p></div>
+        <div class="angle"><p id="textangle" style="margin:0px 0px";>Gripper</p></div>
+        <div class="angleR"><p style="margin:0px 0px";>Right</p></div>
+        <div class="angleLvalue"><p id="textangleL" style="margin:0px 0px";></p></div>
+        <div class="angleRvalue"><p id="textangleR" style="margin:0px 0px";></p></div>
         <div class="grid-item ir4L" id="ir4L">
             <p style="margin:0px 0px";>ir4L</p>
         </div>

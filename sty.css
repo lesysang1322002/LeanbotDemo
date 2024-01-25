@@ -129,8 +129,11 @@ color:white;
   color:black;
 }
 input[type="range"] {
-  width: 100%;
+  width: 100%; 
 }
+/* .distance-slider{
+  background: green;
+} */
 .distance-text{
   margin:0 0;
 }
@@ -143,7 +146,6 @@ input[type="range"] {
 }
 
 .grid-item {
-
   border: 3px solid #CCCCCC;
   background-color: white;
   display: flex;
@@ -154,11 +156,15 @@ input[type="range"] {
   grid-column: 3 / span 11; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 2; /* Nằm ở hàng 2 */
   font-size: 20px;
-  background-color: white;
   display: flex;
   align-items: center; /* Căn giữa theo chiều dọc */
   justify-content: center; /* Căn giữa theo chiều ngang */
 }
+.container-slider{
+  grid-column: 2 / span 13; 
+  grid-row: 2 / span 3;
+  border: 3px solid #CCCCCC;
+} 
 .distance-slider {
   grid-column: 3 / span 11; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 3; /* Nằm ở hàng 2 */
@@ -182,12 +188,39 @@ input[type="range"] {
   font-size:13px;
 }
 .angleL{
-  grid-column: 4;
+  grid-column: 6;
   grid-row: 5;
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center;
+}
+.angleLvalue{
+  grid-column: 6;
+  grid-row: 6;
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center;
+}
+.angle{
+  grid-column: 7 / span 3;
+  grid-row: 5;
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center;
 }
 .angleR{
-  grid-column: 12;
+  grid-column: 10;
   grid-row: 5;
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center;
+}
+.angleRvalue{
+  grid-column: 10;
+  grid-row: 6;
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center;
 }
 .grid-item.ir4L {
   grid-column: 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
