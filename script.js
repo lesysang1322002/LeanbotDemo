@@ -91,8 +91,8 @@ function toggleFunction() {
         requestBluetoothDevice();
         document.getElementById("buttonText").innerText = "Scan";
     checkconnected=false;
-    distanceValue.textContent = "HC-SR04 Ultrasonic distance";
-    distanceValue.style.cssText = "font-size: 13px; color: #CCCCCC;";
+    distanceValue.textContent="HC-SR04 Ultrasonic distance";
+    distanceValue.style.fontSize = "13px";
     clearTimeout(Timeout10cm);
     clearTimeout(Timeout30cm);
     for(let i=0;i<12;i++){
