@@ -40,6 +40,9 @@ navigator.bluetooth.requestDevice({
         textangle.style.color = "black";
         textangleLeft.style.color = "black";
         textangleRight.style.color = "black";
+        buttonsTest.forEach(item => {
+            item.style.color = "black";
+        });
         document.getElementById("buttonText").innerText = "Rescan";
         gattCharacteristic = characteristic
         gattCharacteristic.addEventListener('characteristicvaluechanged', handleChangedValue)
@@ -96,14 +99,15 @@ function toggleFunction() {
         checkconnected=false;
         requestBluetoothDevice();
         document.getElementById("buttonText").innerText = "Scan";
-
+        distanceValue.style.color = "#CCCCCC";
+        textangle.style.color = "#CCCCCC";
+        textangleLeft.style.color = "#CCCCCC";
+        textangleRight.style.color = "#CCCCCC";
+        buttonsTest.forEach(item => {
+        item.style.color = "#CCCCCC";
+        });
     distanceValue.textContent="HC-SR04 Ultrasonic distance";
     distanceValue.style.fontSize = "13px";
-    distanceValue.style.color = "#CCCCCC";
-    distanceValue.style.color = "#CCCCCC";
-    textangle.style.color = "#CCCCCC";
-    textangleLeft.style.color = "#CCCCCC";
-    textangleRight.style.color = "#CCCCCC";
     clearTimeout(Timeout10cm);
     clearTimeout(Timeout30cm);
     for(let i=0;i<12;i++){
@@ -142,6 +146,9 @@ if(!checkconnected){
     textangle.style.color = "#CCCCCC";
     textangleLeft.style.color = "#CCCCCC";
     textangleRight.style.color = "#CCCCCC";
+    buttonsTest.forEach(item => {
+        item.style.color = "#CCCCCC";
+    });
 }
 let ir2L,ir0L,ir1R,ir3R,ir4L,ir6L,ir5R,ir7R,TB1A,TB1B,TB2A,TB2B,distance="",i,angleL,angleR;
 
