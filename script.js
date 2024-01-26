@@ -35,8 +35,12 @@ navigator.bluetooth.requestDevice({
     })
     .then(characteristic => {
         logstatus(dev.name);
-        document.getElementById("buttonText").innerText = "Rescan";
         checkconnected=true;
+        distanceValue.style.color = "black";
+        textangle.style.color = "black";
+        textangleLeft.style.color = "black";
+        textangleRight.style.color = "black";
+        document.getElementById("buttonText").innerText = "Rescan";
         gattCharacteristic = characteristic
         gattCharacteristic.addEventListener('characteristicvaluechanged', handleChangedValue)
         return gattCharacteristic.startNotifications()
@@ -80,19 +84,26 @@ let checkconnected=false;
 
 const button = document.getElementById("toggleButton");
 
+let gridItems = document.querySelectorAll('.grid-item');
+let buttonsTest = document.querySelectorAll('.buttonTest');
+let elements = document.querySelectorAll("#text10cm, #text30cm");
+
 function toggleFunction() {
-    let gridItems = document.querySelectorAll('.grid-item');
-    let buttonsTest = document.querySelectorAll('.buttonTest');
-    let elements = document.querySelectorAll("#text10cm, #text30cm");
     if (button.innerText == "Scan") {
         requestBluetoothDevice();
     } else {
         disconnect();
+        checkconnected=false;
         requestBluetoothDevice();
         document.getElementById("buttonText").innerText = "Scan";
-    checkconnected=false;
+
     distanceValue.textContent="HC-SR04 Ultrasonic distance";
     distanceValue.style.fontSize = "13px";
+    distanceValue.style.color = "#CCCCCC";
+    distanceValue.style.color = "#CCCCCC";
+    textangle.style.color = "#CCCCCC";
+    textangleLeft.style.color = "#CCCCCC";
+    textangleRight.style.color = "#CCCCCC";
     clearTimeout(Timeout10cm);
     clearTimeout(Timeout30cm);
     for(let i=0;i<12;i++){
@@ -126,7 +137,12 @@ function toggleFunction() {
     resetBackground();
     }
 }
-
+if(!checkconnected){
+    distanceValue.style.color = "#CCCCCC";
+    textangle.style.color = "#CCCCCC";
+    textangleLeft.style.color = "#CCCCCC";
+    textangleRight.style.color = "#CCCCCC";
+}
 let ir2L,ir0L,ir1R,ir3R,ir4L,ir6L,ir5R,ir7R,TB1A,TB1B,TB2A,TB2B,distance="",i,angleL,angleR;
 
 const angleLValue = document.getElementById('textangleL');
