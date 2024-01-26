@@ -3,6 +3,7 @@ var bleService = '0000ffe0-0000-1000-8000-00805f9b34fb';
 var bleCharacteristic = '0000ffe1-0000-1000-8000-00805f9b34fb';
 var gattCharacteristic;
 var bluetoothDeviceDetected;
+let checkbutton=false;
 function isWebBluetoothEnabled() {
     if (!navigator.bluetooth) {
     console.log('Web Bluetooth API is not available in this browser!');
@@ -23,6 +24,7 @@ function toggleFunction() {
         document.getElementById("buttonText").innerText = "Scan";
         disconnect();
         requestBluetoothDevice();
+        checkbutton=false;
         distanceValue.textContent="HC-SR04 Ultrasonic distance";
         gridItems.forEach(item => {
             item.style.border = "3px solid #CCCCCC";
@@ -41,6 +43,21 @@ function toggleFunction() {
         check30cm=false;
         distanceValue.style.fontSize = "13px";
         element1.style.color = "black";
+        slidercontainer.style.border = "3px solid #CCCCCC ";
+        element10cm.style.color = "#CCCCCC";
+        element10cm.style.color = "#CCCCCC";
+        updateBackground('ir2L', '0');
+        updateBackground('ir0L', '0');
+        updateBackground('ir1R', '0');
+        updateBackground('ir3R', '0');
+        updateBackground('ir4L', '0');
+        updateBackground('ir6L', '0');
+        updateBackground('ir5R', '0');
+        updateBackground('ir7R', '0');
+        updateBackground('TB1A', '0');
+        updateBackground('TB1B', '0');
+        updateBackground('TB2A', '0');
+        updateBackground('TB2B', '0');
     }
 }
 function requestBluetoothDevice() {
@@ -70,9 +87,9 @@ navigator.bluetooth.requestDevice({
         logstatus(dev.name);
         document.getElementById("buttonText").innerText = "Rescan";
         checkbutton=true;
-    gattCharacteristic = characteristic
-    gattCharacteristic.addEventListener('characteristicvaluechanged', handleChangedValue)
-    return gattCharacteristic.startNotifications()
+        gattCharacteristic = characteristic
+        gattCharacteristic.addEventListener('characteristicvaluechanged', handleChangedValue)
+        return gattCharacteristic.startNotifications()
 })
 .catch(error => {
     if (error instanceof DOMException && error.name === 'NotFoundError' && error.message === 'User cancelled the requestDevice() chooser.') {
@@ -384,24 +401,32 @@ function updateBackground(id, value) {
 }
 
 function TestBuzzer(){
+    if(checkbutton){
     send("Buzzer");
     element = document.getElementById("testBuzzer");
     element.style.border = "3px solid orange";
+    }
 }
 function TestGripper(){
+    if(checkbutton){
     send("Gripper");
     element = document.getElementById("testGripper");
     element.style.border = "3px solid orange";
+    }
 }
 function TestLed(){
+    if(checkbutton){
     send("RGBLeds");
     element = document.getElementById("testLed");
     element.style.border = "3px solid orange";
+    }
 }
 function TestMotor(){
+    if(checkbutton){
     send("Motion");
     element = document.getElementById("testMotor");
     element.style.border = "3px solid orange";
+    }
 }
 // let tabIndex = valueString.indexOf('\t');
 // let spaceIndex = valueString.indexOf(' ');
