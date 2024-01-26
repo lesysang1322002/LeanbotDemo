@@ -1,64 +1,14 @@
-let element1 = document.getElementById("distanceValue");
 var bleService = '0000ffe0-0000-1000-8000-00805f9b34fb';
 var bleCharacteristic = '0000ffe1-0000-1000-8000-00805f9b34fb';
 var gattCharacteristic;
 var bluetoothDeviceDetected;
-let checkbutton=false;
 function isWebBluetoothEnabled() {
     if (!navigator.bluetooth) {
     console.log('Web Bluetooth API is not available in this browser!');
     // log('Web Bluetooth API is not available in this browser!');
     return false
     }
-
     return true
-}
-const button = document.getElementById("toggleButton");
-function toggleFunction() {
-    let gridItems = document.querySelectorAll('.grid-item');
-    let buttonsTest = document.querySelectorAll('.buttonTest');
-    let elements = document.querySelectorAll("#text10cm, #text30cm");
-    if (button.innerText == "Scan") {
-        requestBluetoothDevice();
-    } else {
-        document.getElementById("buttonText").innerText = "Scan";
-        disconnect();
-        requestBluetoothDevice();
-        checkbutton=false;
-        distanceValue.textContent="HC-SR04 Ultrasonic distance";
-        gridItems.forEach(item => {
-            item.style.border = "3px solid #CCCCCC";
-        });
-        buttonsTest.forEach(item => {
-            item.style.border = "3px solid #CCCCCC";
-        });
-        elements.forEach(item => {
-            item.style.color = "#CCCCCC";
-        });
-        slider.value=0;
-        checksum= Array(12).fill(0);
-        check0= Array(12).fill(0);
-        check1= Array(12).fill(0);
-        check10cm=false;
-        check30cm=false;
-        distanceValue.style.fontSize = "13px";
-        element1.style.color = "black";
-        slidercontainer.style.border = "3px solid #CCCCCC ";
-        element10cm.style.color = "#CCCCCC";
-        element10cm.style.color = "#CCCCCC";
-        updateBackground('ir2L', '0');
-        updateBackground('ir0L', '0');
-        updateBackground('ir1R', '0');
-        updateBackground('ir3R', '0');
-        updateBackground('ir4L', '0');
-        updateBackground('ir6L', '0');
-        updateBackground('ir5R', '0');
-        updateBackground('ir7R', '0');
-        updateBackground('TB1A', '0');
-        updateBackground('TB1B', '0');
-        updateBackground('TB2A', '0');
-        updateBackground('TB2B', '0');
-    }
 }
 function requestBluetoothDevice() {
     if(isWebBluetoothEnabled){
@@ -86,7 +36,7 @@ navigator.bluetooth.requestDevice({
     .then(characteristic => {
         logstatus(dev.name);
         document.getElementById("buttonText").innerText = "Rescan";
-        checkbutton=true;
+        checkconnected=true;
         gattCharacteristic = characteristic
         gattCharacteristic.addEventListener('characteristicvaluechanged', handleChangedValue)
         return gattCharacteristic.startNotifications()
@@ -125,27 +75,60 @@ function  logstatus(text){
 const navbarTitle = document.getElementById('navbarTitle');
 navbarTitle.textContent = text;
 }
-document.addEventListener('DOMContentLoaded', function () {
-    var infoButton = document.getElementById('infoButton');
-    var infoContent = document.getElementById('infoContent');
-  
-    infoButton.addEventListener('click', function (event) {
-        event.stopPropagation(); // Ngăn chặn sự kiện click lan sang các phần tử cha
-        if (infoContent.style.display === 'block') {
-            infoContent.style.display = 'none';
-        } else {
-            infoContent.style.display = 'block';
-        }
+
+let checkconnected=false;
+
+const button = document.getElementById("toggleButton");
+
+function toggleFunction() {
+    let gridItems = document.querySelectorAll('.grid-item');
+    let buttonsTest = document.querySelectorAll('.buttonTest');
+    let elements = document.querySelectorAll("#text10cm, #text30cm");
+    if (button.innerText == "Scan") {
+        requestBluetoothDevice();
+    } else {
+        disconnect();
+        requestBluetoothDevice();
+        document.getElementById("buttonText").innerText = "Scan";
+    checkconnected=false;
+    distanceValue.textContent = "HC-SR04 Ultrasonic distance";
+    distanceValue.style.cssText = "font-size: 13px; color: #CCCCCC;";
+    clearTimeout(Timeout10cm);
+    clearTimeout(Timeout30cm);
+    for(let i=0;i<12;i++){
+        clearTimeout(Timeout1[i]);
+        clearTimeout(Timeout0[i]);
+        Lastcommand1[i] = true;
+        Lastcommand0[i] = true;
+        check0[i] = false;
+        check1[i] = false;
+    }
+    angleLValue.textContent = '';
+    angleRValue.textContent = '';
+    gridItems.forEach(item => {
+        item.style.border = "3px solid #CCCCCC";
     });
-  
-    document.addEventListener('click', function () {
-        infoContent.style.display = 'none';
+    buttonsTest.forEach(item => {
+        item.style.border = "3px solid #CCCCCC";
     });
-});
+    elements.forEach(item => {
+        item.style.color = "#CCCCCC";
+    });
+    slider.value=0;
+    checksum= Array(12).fill(0);
+    check0= Array(12).fill(0);
+    check1= Array(12).fill(0);
+    check10cm=false;
+    check30cm=false;
+    slidercontainer.style.border = "3px solid #CCCCCC ";
+    element10cm.style.color = "#CCCCCC";
+    element10cm.style.color = "#CCCCCC";
+    resetBackground();
+    }
+}
 
 let ir2L,ir0L,ir1R,ir3R,ir4L,ir6L,ir5R,ir7R,TB1A,TB1B,TB2A,TB2B,distance="",i,angleL,angleR;
 
-const distanceValue = document.getElementById('distanceValue');
 const angleLValue = document.getElementById('textangleL');
 const angleRValue = document.getElementById('textangleR');
 const slidercontainer = document.getElementById('ctn-slider');
@@ -164,16 +147,17 @@ let check0 = [];
 let check1 = [];
 let Timeout1 = [];
 let Lastcommand1 =[];
-for(let i = 0 ; i < 12; i++){
-    Lastcommand1[i] = true;
-}
 let Timeout0 = [];
 let Lastcommand0 =[];
 for(let i = 0 ; i < 12; i++){
+    Lastcommand1[i] = true;
     Lastcommand0[i] = true;
+    check0[i] = false;
+    check1[i] = false;
 }
 let checksum = []; 
 let string="";
+let stringfill;
 function handleChangedValue(event) {
     let data = event.target.value;
     let dataArray = new Uint8Array(data.buffer);
@@ -182,29 +166,9 @@ function handleChangedValue(event) {
     let n = valueString.length;
     if(valueString[n-1]=='\n'){
         string+=valueString;
-        // console.log(string);
         let s = string.length;
-        let stringfill=string.substring(0,s-2);
-        if(stringfill == 'Gripper'){
-            element = document.getElementById("testGripper");
-            element.style.border = "3px solid green";
-            // console.log("String is Gripper");
-        }
-        if(stringfill == 'Motion'){
-            element = document.getElementById("testMotor");
-            element.style.border = "3px solid green";
-            // console.log("String is Motion");
-        }
-        if(stringfill == 'RGBLeds'){
-            element = document.getElementById("testLed");
-            element.style.border = "3px solid green";
-            // console.log("String is RGBLeds");
-        }
-        if(stringfill == 'Buzzer'){
-            element = document.getElementById("testBuzzer");
-            element.style.border = "3px solid green"; 
-            // console.log("String is Buzzer");     
-        }
+        stringfill=string.substring(0,s-2);
+        UpdateBorderButtonDemo();
         if(string[0]=='T'){
             TB1A=string[3];checkArray[0]=TB1A;
             TB1B=string[4];checkArray[1]=TB1B;
@@ -218,7 +182,6 @@ function handleChangedValue(event) {
             ir3R=string[19];checkArray[9]=ir3R;
             ir5R=string[21];checkArray[10]=ir5R;
             ir7R=string[22];checkArray[11]=ir7R;
-            console.log(checkArray);
             for(let i=0;i<12;i++){
                 if(!check1[i]){
                     if(checkArray[i]=='1'){
@@ -268,7 +231,6 @@ function handleChangedValue(event) {
                     case 11: elementId = "ir7R"; break;
                     default: break;
                 }
-                // Lấy thẻ DOM bằng cách sử dụng id
                 let element = document.getElementById(elementId);
 
                 if(check1[i]){
@@ -277,9 +239,9 @@ function handleChangedValue(event) {
                 if(check0[i]){
                     element.style.border = "3px solid orange";
                 }
-                // Kiểm tra giá trị của checkArray[i]
+                // Kiểm tra giá trị của checksum[i]
                 if (checksum[i] === 1) {
-                    // Nếu checkArray[i] bằng 1, thì đổi màu border của thẻ đó
+                    // Nếu checksum[i] bằng 1, thì đổi màu border của thẻ đó
                     element.style.border = "3px solid green";  // Đổi thành màu đỏ, bạn có thể thay đổi màu sắc tùy ý
                 }
                 // else{
@@ -302,28 +264,10 @@ function handleChangedValue(event) {
                 j++;
             }
             let d = angleL.length;
-            // console.log("AngleL: " + angleL);
             angleR=string.substring(RIndex+d+3,NLIndex-1);
-            // console.log("AngleR: " + angleR);
-            // console.log("TB: " + TB1A+TB1B+TB2A+TB2B);
-            // console.log("IR: " + ir6L+ ir4L +" "+ ir2L+ir0L+ir1R+ir3R + " " +ir5R+ir7R);
-            // console.log("Distance: " + distance);
-            // console.log("Gripper: " + angleL + " " + angleR);
             angleLValue.textContent = `${angleL}°`;
             angleRValue.textContent = `${angleR}°`;
-            updateBackground('ir2L', ir2L);
-            updateBackground('ir0L', ir0L);
-            updateBackground('ir1R', ir1R);
-            updateBackground('ir3R', ir3R);
-            updateBackground('ir4L', ir4L);
-            updateBackground('ir6L', ir6L);
-            updateBackground('ir5R', ir5R);
-            updateBackground('ir7R', ir7R);
-            updateBackground('TB1A', TB1A);
-            updateBackground('TB1B', TB1B);
-            updateBackground('TB2A', TB2A);
-            updateBackground('TB2B', TB2B);
-            
+            Updateallbackground(); 
             if(!check10cm){
                 if(distance=='10'){
                     element10cm.style.color = "orange";
@@ -360,7 +304,7 @@ function handleChangedValue(event) {
                 }
             }
             if(check10cm && check30cm){
-                element1.style.color = "green";
+                distanceValue.style.color = "green";
                 slidercontainer.style.border = "3px solid green ";
             }
             if (distance === "1000") {
@@ -381,52 +325,122 @@ function handleChangedValue(event) {
 
 function updateBackground(id, value) {
     const element = document.getElementById(id);
-
     if (value === '0') {
         element.classList.remove('black');
         element.classList.add('white');
-        // console.log(`Background ${id} is white`);
     } else {
         if(id=="TB1A" || id=="TB1B" ||id=="TB2A" || id=="TB2B" ){
             element.classList.remove('white');
             element.classList.add('red');
-            // console.log(`Background ${id} is red`);
         }
         else{
         element.classList.remove('white');
         element.classList.add('black');
-        // console.log(`Background ${id} is black`);
         }
+    }
+}
+function handleTimeoutCheck(check, array, lastCommand, timeout) {
+    for (let i = 0; i < 12; i++) {
+        if (!check[i]) {
+            if (array[i] === '1') {
+                if (lastCommand[i]) {
+                    timeout[i] = setTimeout(() => {
+                        check[i] = true;
+                    }, 5000);
+                }
+                lastCommand[i] = false;
+            } else {
+                clearTimeout(timeout[i]);
+                lastCommand[i] = true;
+            }
+        }
+    }
+}
+function Updateallbackground(){
+    updateBackground('ir2L', ir2L);
+    updateBackground('ir0L', ir0L);
+    updateBackground('ir1R', ir1R);
+    updateBackground('ir3R', ir3R);
+    updateBackground('ir4L', ir4L);
+    updateBackground('ir6L', ir6L);
+    updateBackground('ir5R', ir5R);
+    updateBackground('ir7R', ir7R);
+    updateBackground('TB1A', TB1A);
+    updateBackground('TB1B', TB1B);
+    updateBackground('TB2A', TB2A);
+    updateBackground('TB2B', TB2B);
+}
+function UpdateBorderButtonDemo(){
+    if(stringfill == 'Gripper'){
+        element = document.getElementById("testGripper");
+        element.style.border = "3px solid green";
+    }
+    if(stringfill == 'Motion'){
+        element = document.getElementById("testMotor");
+        element.style.border = "3px solid green";
+    }
+    if(stringfill == 'RGBLeds'){
+        element = document.getElementById("testLed");
+        element.style.border = "3px solid green";
+    }
+    if(stringfill == 'Buzzer'){
+        element = document.getElementById("testBuzzer");
+        element.style.border = "3px solid green"; 
+
+    }
+}
+function resetBackground(){
+    updateBackground('ir2L', '0');
+    updateBackground('ir0L', '0');
+    updateBackground('ir1R', '0');
+    updateBackground('ir3R', '0');
+    updateBackground('ir4L', '0');
+    updateBackground('ir6L', '0');
+    updateBackground('ir5R', '0');
+    updateBackground('ir7R', '0');
+    updateBackground('TB1A', '0');
+    updateBackground('TB1B', '0');
+    updateBackground('TB2A', '0');
+    updateBackground('TB2B', '0');
+}
+// Thực hiện send và đổi màu viền khi click
+function runTest(component, command){
+    if(checkconnected){
+        send(command);
+        element = document.getElementById("test" + component);
+        element.style.border = "3px solid orange";
     }
 }
 
 function TestBuzzer(){
-    if(checkbutton){
-    send("Buzzer");
-    element = document.getElementById("testBuzzer");
-    element.style.border = "3px solid orange";
-    }
+    runTest("Buzzer", "Buzzer");
 }
+
 function TestGripper(){
-    if(checkbutton){
-    send("Gripper");
-    element = document.getElementById("testGripper");
-    element.style.border = "3px solid orange";
-    }
+    runTest("Gripper", "Gripper");
 }
+
 function TestLed(){
-    if(checkbutton){
-    send("RGBLeds");
-    element = document.getElementById("testLed");
-    element.style.border = "3px solid orange";
-    }
+    runTest("Led", "RGBLeds");
 }
+
 function TestMotor(){
-    if(checkbutton){
-    send("Motion");
-    element = document.getElementById("testMotor");
-    element.style.border = "3px solid orange";
-    }
+    runTest("Motor", "Motion");
 }
-// let tabIndex = valueString.indexOf('\t');
-// let spaceIndex = valueString.indexOf(' ');
+document.addEventListener('DOMContentLoaded', function () {
+    var infoButton = document.getElementById('infoButton');
+    var infoContent = document.getElementById('infoContent');
+  
+    infoButton.addEventListener('click', function (event) {
+        event.stopPropagation(); // Ngăn chặn sự kiện click lan sang các phần tử cha
+        if (infoContent.style.display === 'block') {
+            infoContent.style.display = 'none';
+        } else {
+            infoContent.style.display = 'block';
+        }
+    });
+  
+    document.addEventListener('click', function () {
+        infoContent.style.display = 'none';
+    });
+});
