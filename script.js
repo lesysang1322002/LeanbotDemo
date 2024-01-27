@@ -43,6 +43,9 @@ navigator.bluetooth.requestDevice({
         buttonsTest.forEach(item => {
             item.style.color = "black";
         });
+        gridItems.forEach(item => {
+            item.style.removeProperty("color");
+        });
         document.getElementById("buttonText").innerText = "Rescan";
         gattCharacteristic = characteristic
         gattCharacteristic.addEventListener('characteristicvaluechanged', handleChangedValue)
@@ -106,6 +109,9 @@ function toggleFunction() {
         buttonsTest.forEach(item => {
         item.style.color = "#CCCCCC";
         });
+        gridItems.forEach(item => {
+            item.style.color = "#CCCCCC";
+        });
     distanceValue.textContent="HC-SR04 Ultrasonic distance";
     distanceValue.style.fontSize = "13px";
     clearTimeout(Timeout10cm);
@@ -147,6 +153,9 @@ if(!checkconnected){
     textangleLeft.style.color = "#CCCCCC";
     textangleRight.style.color = "#CCCCCC";
     buttonsTest.forEach(item => {
+        item.style.color = "#CCCCCC";
+    });
+    gridItems.forEach(item => {
         item.style.color = "#CCCCCC";
     });
 }
