@@ -420,6 +420,16 @@ function UpdateBorderButtonDemo(){
         element.style.border = "3px solid green"; 
 
     }
+    if(stringfill == 'StraightMotion'){
+        element = document.getElementById("testStraightMotion");
+        element.style.border = "3px solid green"; 
+
+    }
+    if(stringfill == 'LineFollow'){
+        element = document.getElementById("testFollowline");
+        element.style.border = "3px solid green"; 
+
+    }
 }
 function resetBackground(){
     updateBackground('ir2L', '0');
@@ -459,6 +469,29 @@ function TestLed(){
 function TestMotor(){
     runTest("Motor", "Motion");
 }
+function TestLineFollow(){
+    runTest("Followline","LineFollow");
+}
+function TestStraightMotion(){
+    runTest("StraightMotion","StraightMotion");
+}
+// function TestLineFollowOff(){
+//     // element = document.getElementById("testFollowline");
+//     // element.style.border = "3px solid gray";
+//     send("lineFollowOff");
+// }
+// let checkLineFollow = false;
+
+// function toggleLineFollow(){
+//     if(checkLineFollow){
+//         TestLineFollowOff();
+//         checkLineFollow = false;
+//     }
+//     else{
+//         TestLineFollowOn();
+//         checkLineFollow = true;
+//     }
+// }
 document.addEventListener('DOMContentLoaded', function () {
     var infoButton = document.getElementById('infoButton');
     var infoContent = document.getElementById('infoContent');

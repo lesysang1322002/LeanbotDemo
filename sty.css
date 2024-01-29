@@ -14,6 +14,7 @@ body {
   margin-right:32px;
   /* margin: 0 auto; */
   font-size: 16px;
+  font-weight: bold;
 }
 .btn-primary-scan {
   display: flex;
@@ -30,6 +31,9 @@ body {
   padding-bottom: 2px;
   width: 22px; /* Đặt kích thước chiều rộng mong muốn */
   height: auto;
+}
+.buttonText{
+  font-weight: bold;
 }
 #infoButton {
   margin-top: 5px;
@@ -140,7 +144,7 @@ input[type="range"] {
 .grid-container {
   display: grid;
   grid-template-columns: repeat(15, 1fr); /* Tạo 15 cột với chiều rộng bằng nhau */
-  grid-template-rows: repeat(15, 1fr);    /* Tạo 15 dòng với chiều cao bằng nhau */
+  grid-template-rows: repeat(20, 1fr);    /* Tạo 15 dòng với chiều cao bằng nhau */
   width:100vw;
   /* background-color: #7adae9; */
 }
@@ -161,9 +165,10 @@ input[type="range"] {
   justify-content: center; /* Căn giữa theo chiều ngang */
 }
 .container-slider{
-  grid-column: 2 / span 13; 
+  grid-column: 3 / span 11; 
   grid-row: 2 / span 3;
   border: 3px solid #CCCCCC;
+  border-radius: 15px;
 } 
 .distance-slider {
   grid-column: 3 / span 11; /* Bắt đầu từ cột 6 và chiếm 4 cột */
@@ -350,6 +355,21 @@ p{
 .testMotor{
   grid-column: 9 / span 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 13 / span 2;
+  background-color: white;
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+}
+.testFollowline{
+  grid-column: 5 / span 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+  grid-row: 16 / span 2;
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; 
+}
+.testStraightMotion{
+  grid-column: 9 / span 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+  grid-row: 16 / span 2;
   background-color: white;
   display: flex;
   align-items: center; /* Căn giữa theo chiều dọc */
