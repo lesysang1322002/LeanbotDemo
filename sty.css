@@ -133,7 +133,7 @@ color:white;
   color:black;
 }
 input[type="range"] {
-  width: 100%; 
+  width: 98%; 
 }
 /* .distance-slider{
   background: green;
@@ -361,14 +361,14 @@ p{
   justify-content: center; /* Căn giữa theo chiều ngang */
 }
 .testFollowline{
-  grid-column: 5 / span 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+  grid-column: 4 / span 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 16 / span 2;
   display: flex;
   align-items: center; /* Căn giữa theo chiều dọc */
   justify-content: center; 
 }
 .testStraightMotion{
-  grid-column: 9 / span 3; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+  grid-column: 9 / span 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 16 / span 2;
   background-color: white;
   display: flex;
@@ -382,4 +382,7 @@ p{
   height: 60px; 
   border-radius: 5px;
   border: 3px solid #CCCCCC;
+}
+#testFollowline,#testStraightMotion{
+  width: 95px;
 }
