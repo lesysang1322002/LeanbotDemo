@@ -220,7 +220,7 @@ function handleChangedValue(event) {
                     if(Lastcommand1[i]){
                     Timeout1[i] = setTimeout(() => {
                         check1[i]=true;
-                    }, 5000);
+                    }, 3000);
                     }
                     Lastcommand1[i] = false;
                     }
@@ -234,7 +234,7 @@ function handleChangedValue(event) {
                     if(Lastcommand0[i]){
                     Timeout0[i] = setTimeout(() => {
                         check0[i]=true;
-                    }, 5000);
+                    }, 3000);
                     }
                     Lastcommand0[i] = false;
                     }
@@ -307,7 +307,7 @@ function handleChangedValue(event) {
                 Timeout10cm = setTimeout(() => {
                     element10cm.style.color = "green";
                     check10cm=true;
-                }, 5000);
+                }, 3000);
                 }
                 Lastcommand10cm = false;
                 }
@@ -325,7 +325,7 @@ function handleChangedValue(event) {
                 Timeout30cm = setTimeout(() => {
                     element30cm.style.color = "green";
                     check30cm=true;
-                }, 5000);
+                }, 3000);
                 }
                 Lastcommand30cm=false;
                 }
@@ -378,7 +378,7 @@ function handleTimeoutCheck(check, array, lastCommand, timeout) {
                 if (lastCommand[i]) {
                     timeout[i] = setTimeout(() => {
                         check[i] = true;
-                    }, 5000);
+                    }, 3000);
                 }
                 lastCommand[i] = false;
             } else {
