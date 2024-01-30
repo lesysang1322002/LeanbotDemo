@@ -245,7 +245,7 @@ function handleChangedValue(event) {
                 }
                 if(check0[i] && check1[i]) checksum[i]=1;
             }
-            console.log(checksum);
+            // console.log(checksum);
             for (let i = 0; i < 12; i++) {
                 let elementId = "";  // Lưu trữ id của thẻ cần thay đổi
                 switch (i) {
@@ -353,6 +353,9 @@ function handleChangedValue(event) {
     else{
         string+=valueString;
     }
+    if(areAllElementsEqualToOne(checkButtonGreen) && areAllElementsEqualToOne(checksum) && check10cm && check30cm){
+        navbarTitle.style.color = "green";
+    }
 }
 
 function updateBackground(id, value) {
@@ -402,35 +405,48 @@ function Updateallbackground(){
     updateBackground('TB2A', TB2A);
     updateBackground('TB2B', TB2B);
 }
+let checkButtonGreen = [0,0,0,0,0,0];
 function UpdateBorderButtonDemo(){
     if(stringfill == 'Gripper'){
         element = document.getElementById("testGripper");
         element.style.border = "3px solid green";
+        checkButtonGreen[0]=1;
     }
     if(stringfill == 'Motion'){
         element = document.getElementById("testMotor");
         element.style.border = "3px solid green";
+        checkButtonGreen[1]=1;
     }
     if(stringfill == 'RGBLeds'){
         element = document.getElementById("testLed");
         element.style.border = "3px solid green";
+        checkButtonGreen[2]=1;
     }
     if(stringfill == 'Buzzer'){
         element = document.getElementById("testBuzzer");
         element.style.border = "3px solid green"; 
-
+        checkButtonGreen[3]=1;
     }
     if(stringfill == 'StraightMotion'){
         element = document.getElementById("testStraightMotion");
         element.style.border = "3px solid green"; 
-
+        checkButtonGreen[4]=1;
     }
     if(stringfill == 'LineFollow'){
         element = document.getElementById("testFollowline");
         element.style.border = "3px solid green"; 
-
+        checkButtonGreen[5]=1;
     }
+    console.log(checkButtonGreen);
 }
+function areAllElementsEqualToOne(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] !== 1) {
+        return false;
+      }
+    }
+    return true;
+  }
 function resetBackground(){
     updateBackground('ir2L', '0');
     updateBackground('ir0L', '0');
