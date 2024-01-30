@@ -215,38 +215,6 @@ function handleChangedValue(event) {
             ir5R=string[21];checkArray[10]=ir5R;
             ir7R=string[22];checkArray[11]=ir7R;
             for(let i=0;i<12;i++){
-                if(!check1[i]){
-                    if(checkArray[i]=='1'){
-                    if(Lastcommand1[i]){
-                    Timeout1[i] = setTimeout(() => {
-                        check1[i]=true;
-                    }, 3000);
-                    }
-                    Lastcommand1[i] = false;
-                    }
-                    else{
-                        clearTimeout(Timeout1[i]);
-                        Lastcommand1[i]=true;   
-                    }
-                }
-                if(!check0[i]){
-                    if(checkArray[i]=='0'){
-                    if(Lastcommand0[i]){
-                    Timeout0[i] = setTimeout(() => {
-                        check0[i]=true;
-                    }, 3000);
-                    }
-                    Lastcommand0[i] = false;
-                    }
-                    else{
-                        clearTimeout(Timeout0[i]);
-                        Lastcommand0[i]=true;   
-                    }
-                }
-                if(check0[i] && check1[i]) checksum[i]=1;
-            }
-            // console.log(checksum);
-            for (let i = 0; i < 12; i++) {
                 let elementId = "";  // Lưu trữ id của thẻ cần thay đổi
                 switch (i) {
                     case 0: elementId = "TB1A"; break;
@@ -264,22 +232,76 @@ function handleChangedValue(event) {
                     default: break;
                 }
                 let element = document.getElementById(elementId);
-
-                if(check1[i]){
-                    element.style.border = "3px solid yellow";
+                if(!check1[i]){
+                    if(checkArray[i]=='1'){
+                        element.style.border = "3px solid orange";
+                    if(Lastcommand1[i]){
+                    Timeout1[i] = setTimeout(() => {
+                        element.style.border = "3px solid #CCCCCC";
+                        check1[i]=true;
+                    }, 3000);
+                    }
+                    Lastcommand1[i] = false;
+                    }
+                    else{
+                        clearTimeout(Timeout1[i]);
+                        Lastcommand1[i]=true;   
+                    }
                 }
-                if(check0[i]){
-                    element.style.border = "3px solid orange";
+                if(!check0[i]){
+                    if(checkArray[i]=='0'){
+                        element.style.border = "3px solid orange";
+                    if(Lastcommand0[i]){
+                    Timeout0[i] = setTimeout(() => {
+                        element.style.border = "3px solid #CCCCCC";
+                        check0[i]=true;
+                    }, 3000);
+                    }
+                    Lastcommand0[i] = false;
+                    }
+                    else{
+                        clearTimeout(Timeout0[i]);
+                        Lastcommand0[i]=true;   
+                    }
                 }
-                // Kiểm tra giá trị của checksum[i]
-                if (checksum[i] === 1) {
-                    // Nếu checksum[i] bằng 1, thì đổi màu border của thẻ đó
-                    element.style.border = "3px solid green";  // Đổi thành màu đỏ, bạn có thể thay đổi màu sắc tùy ý
+                if(check0[i] && check1[i]) {
+                    checksum[i]=1;
+                    element.style.border = "3px solid green";  
                 }
-                // else{
-                //     element.style.border = "3px solid #CCCCCC";
-                // }
             }
+            // // console.log(checksum);
+            // for (let i = 0; i < 12; i++) {
+            //     let elementId = "";  // Lưu trữ id của thẻ cần thay đổi
+            //     switch (i) {
+            //         case 0: elementId = "TB1A"; break;
+            //         case 1: elementId = "TB1B"; break;
+            //         case 2: elementId = "TB2A"; break;
+            //         case 3: elementId = "TB2B"; break;
+            //         case 4: elementId = "ir6L"; break;
+            //         case 5: elementId = "ir4L"; break;
+            //         case 6: elementId = "ir2L"; break;
+            //         case 7: elementId = "ir0L"; break;
+            //         case 8: elementId = "ir1R"; break;
+            //         case 9: elementId = "ir3R"; break;
+            //         case 10: elementId = "ir5R"; break;
+            //         case 11: elementId = "ir7R"; break;
+            //         default: break;
+            //     }
+            //     let element = document.getElementById(elementId);
+
+            //     if(check1[i]){
+            //         element.style.border = "3px solid yellow";
+            //     }
+            //     if(check0[i]){
+            //         element.style.border = "3px solid orange";
+            //     }
+            //     // Kiểm tra giá trị của checksum[i]
+            //     if (checksum[i] === 1) {
+            //         element.style.border = "3px solid green";  
+            //     // else{
+            //     //     element.style.border = "3px solid #CCCCCC";
+            //     // }
+            // }
             i=26;
             distance="";
             while(string[i]!=' '){
