@@ -18,6 +18,7 @@ navigator.bluetooth.requestDevice({
         services: ['0000ffe0-0000-1000-8000-00805f9b34fb'] }] 
     })         
 .then(device => {
+    device.addEventListener('gattserverdisconnected', onDisconnected);
     dev=device;
     logstatus("Connect to " + dev.name);
     console.log('Đang kết nối với', dev);
@@ -67,6 +68,13 @@ function disconnect()
     console.log("Đã ngắt kết nối với: " + dev.name);
     return dev.gatt.disconnect();
 }
+function onDisconnected(event) {
+    const device = event.target;
+    resetPage();
+    logstatus("Scan to connect");
+    document.getElementById("buttonText").innerText = "Scan";
+    console.log(`Device ${device.name} is disconnected.`);
+}
 function send(data)
 {
     console.log("You -> " + data + "\n");
@@ -82,8 +90,8 @@ function str2ab(str)
     return buf;
 }
 function  logstatus(text){
-const navbarTitle = document.getElementById('navbarTitle');
-navbarTitle.textContent = text;
+    const navbarTitle = document.getElementById('navbarTitle');
+    navbarTitle.textContent = text;
 }
 
 let checkconnected=false;
@@ -99,8 +107,12 @@ function toggleFunction() {
         requestBluetoothDevice();
     } else {
         disconnect();
-        checkconnected=false;
         requestBluetoothDevice();
+        resetPage();
+    }
+}
+function resetPage(){
+    checkconnected=false;
         document.getElementById("buttonText").innerText = "Scan";
         distanceValue.style.color = "#CCCCCC";
         textangle.style.color = "#CCCCCC";
@@ -112,40 +124,40 @@ function toggleFunction() {
         gridItems.forEach(item => {
             item.style.color = "#CCCCCC";
         });
-    distanceValue.textContent="HC-SR04 Ultrasonic distance";
-    distanceValue.style.fontSize = "13px";
-    clearTimeout(Timeout10cm);
-    clearTimeout(Timeout30cm);
-    for(let i=0;i<12;i++){
-        clearTimeout(Timeout1[i]);
-        clearTimeout(Timeout0[i]);
-        Lastcommand1[i] = true;
-        Lastcommand0[i] = true;
-        check0[i] = false;
-        check1[i] = false;
-    }
-    angleLValue.textContent = '';
-    angleRValue.textContent = '';
-    gridItems.forEach(item => {
-        item.style.border = "3px solid #CCCCCC";
-    });
-    buttonsTest.forEach(item => {
-        item.style.border = "3px solid #CCCCCC";
-    });
-    elements.forEach(item => {
-        item.style.color = "#CCCCCC";
-    });
-    slider.value=0;
-    checksum= Array(12).fill(0);
-    check0= Array(12).fill(0);
-    check1= Array(12).fill(0);
-    check10cm=false;
-    check30cm=false;
-    slidercontainer.style.border = "3px solid #CCCCCC ";
-    element10cm.style.color = "#CCCCCC";
-    element10cm.style.color = "#CCCCCC";
-    resetBackground();
-    }
+        distanceValue.textContent="HC-SR04 Ultrasonic distance";
+        distanceValue.style.fontSize = "13px";
+        clearTimeout(Timeout10cm);
+        clearTimeout(Timeout30cm);
+        for(let i=0;i<12;i++){
+            clearTimeout(Timeout1[i]);
+            clearTimeout(Timeout0[i]);
+            Lastcommand1[i] = true;
+            Lastcommand0[i] = true;
+            check0[i] = false;
+            check1[i] = false;
+        }
+        angleLValue.textContent = '';
+        angleRValue.textContent = '';
+        gridItems.forEach(item => {
+            item.style.border = "3px solid #CCCCCC";
+        });
+        buttonsTest.forEach(item => {
+            item.style.border = "3px solid #CCCCCC";
+        });
+        elements.forEach(item => {
+            item.style.color = "#CCCCCC";
+        });
+        slider.value=0;
+        checksum= Array(12).fill(0);
+        check0= Array(12).fill(0);
+        check1= Array(12).fill(0);
+        check10cm=false;
+        check30cm=false;
+        slidercontainer.style.border = "3px solid #CCCCCC ";
+        element10cm.style.color = "#CCCCCC";
+        element10cm.style.color = "#CCCCCC";
+        resetBackground();
+        checkClickDone = false;
 }
 if(!checkconnected){
     distanceValue.style.color = "#CCCCCC";
@@ -269,39 +281,6 @@ function handleChangedValue(event) {
                     element.style.border = "3px solid green";  
                 }
             }
-            // // console.log(checksum);
-            // for (let i = 0; i < 12; i++) {
-            //     let elementId = "";  // Lưu trữ id của thẻ cần thay đổi
-            //     switch (i) {
-            //         case 0: elementId = "TB1A"; break;
-            //         case 1: elementId = "TB1B"; break;
-            //         case 2: elementId = "TB2A"; break;
-            //         case 3: elementId = "TB2B"; break;
-            //         case 4: elementId = "ir6L"; break;
-            //         case 5: elementId = "ir4L"; break;
-            //         case 6: elementId = "ir2L"; break;
-            //         case 7: elementId = "ir0L"; break;
-            //         case 8: elementId = "ir1R"; break;
-            //         case 9: elementId = "ir3R"; break;
-            //         case 10: elementId = "ir5R"; break;
-            //         case 11: elementId = "ir7R"; break;
-            //         default: break;
-            //     }
-            //     let element = document.getElementById(elementId);
-
-            //     if(check1[i]){
-            //         element.style.border = "3px solid yellow";
-            //     }
-            //     if(check0[i]){
-            //         element.style.border = "3px solid orange";
-            //     }
-            //     // Kiểm tra giá trị của checksum[i]
-            //     if (checksum[i] === 1) {
-            //         element.style.border = "3px solid green";  
-            //     // else{
-            //     //     element.style.border = "3px solid #CCCCCC";
-            //     // }
-            // }
             i=26;
             distance="";
             while(string[i]!=' '){
@@ -414,6 +393,7 @@ function handleTimeoutCheck(check, array, lastCommand, timeout) {
     }
 }
 function Updateallbackground(){
+    if(!checkClickDone){
     updateBackground('ir2L', ir2L);
     updateBackground('ir0L', ir0L);
     updateBackground('ir1R', ir1R);
@@ -426,6 +406,7 @@ function Updateallbackground(){
     updateBackground('TB1B', TB1B);
     updateBackground('TB2A', TB2A);
     updateBackground('TB2B', TB2B);
+    }
 }
 let checkButtonGreen = [0,0,0,0,0,0];
 function UpdateBorderButtonDemo(){
@@ -433,31 +414,37 @@ function UpdateBorderButtonDemo(){
         element = document.getElementById("testGripper");
         element.style.border = "3px solid green";
         checkButtonGreen[0]=1;
+        checkClickDone = false;
     }
     if(stringfill == 'Motion'){
         element = document.getElementById("testMotor");
         element.style.border = "3px solid green";
         checkButtonGreen[1]=1;
+        checkClickDone = false;
     }
     if(stringfill == 'RGBLeds'){
         element = document.getElementById("testLed");
         element.style.border = "3px solid green";
         checkButtonGreen[2]=1;
+        checkClickDone = false;
     }
     if(stringfill == 'Buzzer'){
         element = document.getElementById("testBuzzer");
         element.style.border = "3px solid green"; 
         checkButtonGreen[3]=1;
+        checkClickDone = false;
     }
     if(stringfill == 'StraightMotion'){
         element = document.getElementById("testStraightMotion");
         element.style.border = "3px solid green"; 
         checkButtonGreen[4]=1;
+        checkClickDone = false;
     }
     if(stringfill == 'LineFollow'){
         element = document.getElementById("testFollowline");
         element.style.border = "3px solid green"; 
         checkButtonGreen[5]=1;
+        checkClickDone = false;
     }
     console.log(checkButtonGreen);
 }
@@ -483,12 +470,15 @@ function resetBackground(){
     updateBackground('TB2A', '0');
     updateBackground('TB2B', '0');
 }
+let checkClickDone = false;
 // Thực hiện send và đổi màu viền khi click
 function runTest(component, command){
-    if(checkconnected){
+    if(checkconnected && !checkClickDone){
         send(command);
         element = document.getElementById("test" + component);
         element.style.border = "3px solid orange";
+        checkClickDone = true;
+        resetBackground();
     }
 }
 
