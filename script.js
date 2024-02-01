@@ -409,7 +409,7 @@ function Updateallbackground(){
     updateBackground('TB2B', TB2B);
     // }
 }
-let checkButtonGreen = [0,0,0,0,0,0];
+let checkButtonGreen = [0,0,0,0,0,0,0];
 function UpdateBorderButtonDemo(){
     if(stringfill == 'Gripper'){
         element = document.getElementById("testGripper");
@@ -445,6 +445,12 @@ function UpdateBorderButtonDemo(){
         element = document.getElementById("testFollowline");
         element.style.border = "3px solid green"; 
         checkButtonGreen[5]=1;
+        checkClickDone = false;
+    }
+    if(stringfill == 'Objectfollow'){
+        element = document.getElementById("testObjectfollow");
+        element.style.border = "3px solid green"; 
+        checkButtonGreen[6]=1;
         checkClickDone = false;
     }
     console.log(checkButtonGreen);
