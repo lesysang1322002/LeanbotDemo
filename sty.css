@@ -375,6 +375,14 @@ p{
   align-items: center; /* Căn giữa theo chiều dọc */
   justify-content: center; /* Căn giữa theo chiều ngang */
 }
+.testObjectfollow{
+  grid-column: 4 / span 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
+  grid-row: 19 / span 2;
+  background-color: white;
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+}
 .buttonTest {
   align-items: center; 
   background-color: #a0cef1 !important; 
@@ -383,6 +391,6 @@ p{
   border-radius: 5px;
   border: 3px solid #CCCCCC;
 }
-#testFollowline,#testStraightMotion{
+#testFollowline,#testStraightMotion,#testObjectfollow{
   width: 95px;
 }

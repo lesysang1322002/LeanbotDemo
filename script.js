@@ -108,11 +108,12 @@ function toggleFunction() {
     } else {
         disconnect();
         requestBluetoothDevice();
-        resetPage();
+        resetPageColor();
     }
 }
-function resetPage(){
-    checkconnected=false;
+function resetPageColor(){
+        checkconnected=false;
+        navbarTitle.style.color = "orange";
         document.getElementById("buttonText").innerText = "Scan";
         distanceValue.style.color = "#CCCCCC";
         textangle.style.color = "#CCCCCC";
@@ -393,7 +394,7 @@ function handleTimeoutCheck(check, array, lastCommand, timeout) {
     }
 }
 function Updateallbackground(){
-    if(!checkClickDone){
+    // if(!checkClickDone){
     updateBackground('ir2L', ir2L);
     updateBackground('ir0L', ir0L);
     updateBackground('ir1R', ir1R);
@@ -406,7 +407,7 @@ function Updateallbackground(){
     updateBackground('TB1B', TB1B);
     updateBackground('TB2A', TB2A);
     updateBackground('TB2B', TB2B);
-    }
+    // }
 }
 let checkButtonGreen = [0,0,0,0,0,0];
 function UpdateBorderButtonDemo(){
@@ -478,7 +479,7 @@ function runTest(component, command){
         element = document.getElementById("test" + component);
         element.style.border = "3px solid orange";
         checkClickDone = true;
-        resetBackground();
+        // resetBackground();
     }
 }
 
@@ -502,6 +503,9 @@ function TestLineFollow(){
 }
 function TestStraightMotion(){
     runTest("StraightMotion","StraightMotion");
+}
+function TestObjectfollow(){
+    runTest("Objectfollow","Objectfollow");
 }
 // function TestLineFollowOff(){
 //     // element = document.getElementById("testFollowline");
