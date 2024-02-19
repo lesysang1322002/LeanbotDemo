@@ -447,10 +447,21 @@ function UpdateBorderButtonDemo(){
         checkButtonGreen[5]=1;
         checkClickDone = false;
     }
+    if(stringfill == 'checkIRtrue'){
+        element = document.getElementById("testFollowline");
+        element.style.border = "3px solid orange"; 
+        // checkClickDone = false;
+    }
     if(stringfill == 'Objectfollow'){
         element = document.getElementById("testObjectfollow");
         element.style.border = "3px solid green"; 
         checkButtonGreen[6]=1;
+        checkClickDone = false;
+    }
+    if(stringfill == 'IRLine'){
+        element = document.getElementById("testIRLineCalibration");
+        element.style.border = "3px solid green"; 
+        // checkButtonGreen[7]=1;
         checkClickDone = false;
     }
     console.log(checkButtonGreen);
@@ -505,13 +516,16 @@ function TestMotor(){
     runTest("Motor", "Motion");
 }
 function TestLineFollow(){
-    runTest("Followline","LineFollow");
+    send("LineFollow");
 }
 function TestStraightMotion(){
     runTest("StraightMotion","StraightMotion");
 }
 function TestObjectfollow(){
     runTest("Objectfollow","Objectfollow");
+}
+function TestIRLineCalibration(){
+    runTest("IRLineCalibration","IRLine");
 }
 // function TestLineFollowOff(){
 //     // element = document.getElementById("testFollowline");
