@@ -41,6 +41,7 @@ navigator.bluetooth.requestDevice({
         textangle.style.color = "black";
         textangleLeft.style.color = "black";
         textangleRight.style.color = "black";
+        testIRLineCalibration.style.color = "black";
         buttonsTest.forEach(item => {
             item.style.color = "black";
         });
@@ -70,7 +71,7 @@ function disconnect()
 }
 function onDisconnected(event) {
     const device = event.target;
-    resetPage();
+    resetPageColor();
     logstatus("Scan to connect");
     document.getElementById("buttonText").innerText = "Scan";
     console.log(`Device ${device.name} is disconnected.`);
@@ -113,12 +114,14 @@ function toggleFunction() {
 }
 function resetPageColor(){
         checkconnected=false;
+        checkpopup = false;
         navbarTitle.style.color = "orange";
         document.getElementById("buttonText").innerText = "Scan";
         distanceValue.style.color = "#CCCCCC";
         textangle.style.color = "#CCCCCC";
         textangleLeft.style.color = "#CCCCCC";
         textangleRight.style.color = "#CCCCCC";
+        testIRLineCalibration.style.color = "#CCCCCC";
         buttonsTest.forEach(item => {
         item.style.color = "#CCCCCC";
         });
@@ -203,7 +206,10 @@ for(let i = 0 ; i < 12; i++){
 let checksum = []; 
 let string="";
 let stringfill;
+let lineState="";
+let count = 0;
 function handleChangedValue(event) {
+    count++;
     let data = event.target.value;
     let dataArray = new Uint8Array(data.buffer);
     let textDecoder = new TextDecoder('utf-8');
@@ -211,6 +217,13 @@ function handleChangedValue(event) {
     let n = valueString.length;
     if(valueString[n-1]=='\n'){
         string+=valueString;
+        if(count==3){
+        let stringcheck=string[0]+string[1]+string[2]+string[7]+string[8]+string[9]+string[10]+string[11]+string[12];
+        if(stringcheck !== "TB  - IR "){
+            alert('Please open Leanbot code link at the bottom of the website and load the code');
+            checkpopup = true;
+        }
+        }
         let s = string.length;
         stringfill=string.substring(0,s-2);
         UpdateBorderButtonDemo();
@@ -227,6 +240,8 @@ function handleChangedValue(event) {
             ir3R=string[19];checkArray[9]=ir3R;
             ir5R=string[21];checkArray[10]=ir5R;
             ir7R=string[22];checkArray[11]=ir7R;
+            lineState= ir4L + ir2L + ir0L + ir1R;
+            console.log(lineState);
             for(let i=0;i<12;i++){
                 let elementId = "";  // Lưu trữ id của thẻ cần thay đổi
                 switch (i) {
@@ -411,6 +426,7 @@ function Updateallbackground(){
 }
 let checkButtonGreen = [0,0,0,0,0,0,0];
 function UpdateBorderButtonDemo(){
+    console.log(stringfill);
     if(stringfill == 'Gripper'){
         element = document.getElementById("testGripper");
         element.style.border = "3px solid green";
@@ -447,24 +463,13 @@ function UpdateBorderButtonDemo(){
         checkButtonGreen[5]=1;
         checkClickDone = false;
     }
-    if(stringfill == 'checkIRtrue'){
-        element = document.getElementById("testFollowline");
-        element.style.border = "3px solid orange"; 
-        // checkClickDone = false;
-    }
     if(stringfill == 'Objectfollow'){
         element = document.getElementById("testObjectfollow");
         element.style.border = "3px solid green"; 
         checkButtonGreen[6]=1;
         checkClickDone = false;
     }
-    if(stringfill == 'IRLine'){
-        element = document.getElementById("testIRLineCalibration");
-        element.style.border = "3px solid green"; 
-        // checkButtonGreen[7]=1;
-        checkClickDone = false;
-    }
-    console.log(checkButtonGreen);
+    // console.log(checkButtonGreen);
 }
 function areAllElementsEqualToOne(arr) {
     for (let i = 0; i < arr.length; i++) {
@@ -516,7 +521,9 @@ function TestMotor(){
     runTest("Motor", "Motion");
 }
 function TestLineFollow(){
-    send("LineFollow");
+    if(lineState!=='1111' && lineState!=='0000'){
+    runTest("Followline","LineFollow");
+    }
 }
 function TestStraightMotion(){
     runTest("StraightMotion","StraightMotion");
@@ -525,7 +532,7 @@ function TestObjectfollow(){
     runTest("Objectfollow","Objectfollow");
 }
 function TestIRLineCalibration(){
-    runTest("IRLineCalibration","IRLine");
+    send("IRLine");
 }
 // function TestLineFollowOff(){
 //     // element = document.getElementById("testFollowline");
