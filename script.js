@@ -36,6 +36,7 @@ navigator.bluetooth.requestDevice({
     })
     .then(characteristic => {
         logstatus(dev.name);
+        setTimeout(checknews, 5000);
         checkconnected=true;
         distanceValue.style.color = "black";
         textangle.style.color = "black";
@@ -207,9 +208,9 @@ let checksum = [];
 let string="";
 let stringfill;
 let lineState="";
-let count = 0;
+let stringcheck="";
+let distanceInt;
 function handleChangedValue(event) {
-    count++;
     let data = event.target.value;
     let dataArray = new Uint8Array(data.buffer);
     let textDecoder = new TextDecoder('utf-8');
@@ -217,13 +218,7 @@ function handleChangedValue(event) {
     let n = valueString.length;
     if(valueString[n-1]=='\n'){
         string+=valueString;
-        if(count==3){
-        let stringcheck=string[0]+string[1]+string[2]+string[7]+string[8]+string[9]+string[10]+string[11]+string[12];
-        if(stringcheck !== "TB  - IR "){
-            alert('Please open Leanbot code link at the bottom of the website and load the code');
-            checkpopup = true;
-        }
-        }
+        stringcheck=string[0]+string[1]+string[2]+string[7]+string[8]+string[9]+string[10]+string[11]+string[12];
         let s = string.length;
         stringfill=string.substring(0,s-2);
         UpdateBorderButtonDemo();
@@ -241,6 +236,12 @@ function handleChangedValue(event) {
             ir5R=string[21];checkArray[10]=ir5R;
             ir7R=string[22];checkArray[11]=ir7R;
             lineState= ir4L + ir2L + ir0L + ir1R;
+            if(lineState ==='1111' || lineState ==='0000'){
+                testFollowline.style.color = "#CCCCCC";
+            }
+            else{
+                testFollowline.style.color = "green";
+            }
             console.log(lineState);
             for(let i=0;i<12;i++){
                 let elementId = "";  // Lưu trữ id của thẻ cần thay đổi
@@ -302,6 +303,13 @@ function handleChangedValue(event) {
             while(string[i]!=' '){
                 distance +=string[i];
                 i++;
+            }
+            distanceInt = parseInt(distance); // Chuyển đổi thành số nguyên
+            if(distanceInt>100){
+                testObjectfollow.style.color = "#CCCCCC";
+            }
+            else{
+                testObjectfollow.style.color = "green";
             }
             let GIndex = string.indexOf('G');
             let RIndex = string.indexOf('R',GIndex);
@@ -375,6 +383,12 @@ function handleChangedValue(event) {
     }
 }
 
+function checknews(){
+    if(stringcheck !== "TB  - IR "){
+        alert("Incorrect data from Leanbot.\nPlease upload the following code to Leanbot:\nhttps://git.pythaverse.space/lesang/Bao_cao/blob/master/LeanbotDemo/LeanbotDemo.ino");
+
+    }
+}
 function updateBackground(id, value) {
     const element = document.getElementById(id);
     if (value === '0') {
@@ -524,12 +538,20 @@ function TestLineFollow(){
     if(lineState!=='1111' && lineState!=='0000'){
     runTest("Followline","LineFollow");
     }
+    else{
+        alert('Please put Leanbot on black line to run Line Follow Demo');
+    }
 }
 function TestStraightMotion(){
     runTest("StraightMotion","StraightMotion");
 }
 function TestObjectfollow(){
-    runTest("Objectfollow","Objectfollow");
+    if(distanceInt <= 100){
+        runTest("Objectfollow","Objectfollow");
+    }
+    else{
+        alert('Please put an object within 100 cm in front of Leanbot');
+    }
 }
 function TestIRLineCalibration(){
     send("IRLine");
