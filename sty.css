@@ -57,6 +57,20 @@ body {
   white-space: pre-line; /* Hiển thị thông tin theo hàng dòng */
   line-height: 0.1;
 }
+.info-popup {
+  display: none;
+  position: fixed; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 1;
+  white-space: pre-line;
+  line-height: 1;
+}
 .alert-info {
   background-color: #17a2b8;
   color: #fff;

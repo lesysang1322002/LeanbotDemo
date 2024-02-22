@@ -36,7 +36,7 @@ navigator.bluetooth.requestDevice({
     })
     .then(characteristic => {
         logstatus(dev.name);
-        setTimeout(checknews, 5000);
+        checkMessageWithin5Seconds();        
         checkconnected=true;
         distanceValue.style.color = "black";
         textangle.style.color = "black";
@@ -98,6 +98,8 @@ function  logstatus(text){
 
 let checkconnected=false;
 
+let checkmessage=false;
+
 const button = document.getElementById("toggleButton");
 
 let gridItems = document.querySelectorAll('.grid-item');
@@ -115,6 +117,7 @@ function toggleFunction() {
 }
 function resetPageColor(){
         checkconnected=false;
+        checkmessage=false;
         checkpopup = false;
         navbarTitle.style.color = "orange";
         document.getElementById("buttonText").innerText = "Scan";
@@ -219,6 +222,12 @@ function handleChangedValue(event) {
     if(valueString[n-1]=='\n'){
         string+=valueString;
         stringcheck=string[0]+string[1]+string[2]+string[7]+string[8]+string[9]+string[10]+string[11]+string[12];
+        // Kiểm tra điều kiện
+        if (stringcheck === "TB  - IR ") {
+            console.log("Bản tin đúng trước 5 giây.");
+            checkmessage=true;
+            clearTimeout(timeoutCheckMessage); // Hủy kết thúc sau 5 giây
+        }
         let s = string.length;
         stringfill=string.substring(0,s-2);
         UpdateBorderButtonDemo();
@@ -383,11 +392,21 @@ function handleChangedValue(event) {
     }
 }
 
-function checknews(){
-    if(stringcheck !== "TB  - IR "){
-        alert("Incorrect data from Leanbot.\nPlease upload the following code to Leanbot:\nhttps://git.pythaverse.space/lesang/Bao_cao/blob/master/LeanbotDemo/LeanbotDemo.ino");
+let timeoutCheckMessage;
 
-    }
+function checkMessageWithin5Seconds() {
+    // Thiết lập hàm setTimeout để kết thúc sau 5 giây
+    timeoutCheckMessage = setTimeout(function() {
+        console.log("Đã hết thời gian 5 giây, bản tin sai.");
+        let infoBox = document.getElementById("infopopup");
+        // Hiển thị info box
+        infoBox.style.display = "block";
+        document.addEventListener("click", function(event) {
+            if (!infoBox.contains(event.target)) {
+                infoBox.style.display = "none";
+            }
+        });
+    }, 5000);
 }
 function updateBackground(id, value) {
     const element = document.getElementById(id);
@@ -510,7 +529,7 @@ function resetBackground(){
 let checkClickDone = false;
 // Thực hiện send và đổi màu viền khi click
 function runTest(component, command){
-    if(checkconnected && !checkClickDone){
+    if(checkmessage && !checkClickDone){
         send(command);
         element = document.getElementById("test" + component);
         element.style.border = "3px solid orange";
@@ -535,26 +554,32 @@ function TestMotor(){
     runTest("Motor", "Motion");
 }
 function TestLineFollow(){
+    if(checkmessage){
     if(lineState!=='1111' && lineState!=='0000'){
     runTest("Followline","LineFollow");
     }
     else{
         alert('Please put Leanbot on black line to run Line Follow Demo');
     }
+    }
 }
 function TestStraightMotion(){
     runTest("StraightMotion","StraightMotion");
 }
 function TestObjectfollow(){
+    if(checkmessage){
     if(distanceInt <= 100){
         runTest("Objectfollow","Objectfollow");
     }
     else{
         alert('Please put an object within 100 cm in front of Leanbot');
     }
+    }
 }
 function TestIRLineCalibration(){
+    if(checkmessage){
     send("IRLine");
+    }
 }
 // function TestLineFollowOff(){
 //     // element = document.getElementById("testFollowline");
