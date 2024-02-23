@@ -21,7 +21,7 @@ navigator.bluetooth.requestDevice({
     device.addEventListener('gattserverdisconnected', onDisconnected);
     dev=device;
     logstatus("Connect to " + dev.name);
-    console.log('Đang kết nối với', dev);
+    console.log('Connecting to', dev);
     return device.gatt.connect();
 })
 .then(server => {
@@ -36,19 +36,7 @@ navigator.bluetooth.requestDevice({
     })
     .then(characteristic => {
         logstatus(dev.name);
-        checkMessageWithin5Seconds();        
-        checkconnected=true;
-        distanceValue.style.color = "black";
-        textangle.style.color = "black";
-        textangleLeft.style.color = "black";
-        textangleRight.style.color = "black";
-        testIRLineCalibration.style.color = "black";
-        buttonsTest.forEach(item => {
-            item.style.color = "black";
-        });
-        gridItems.forEach(item => {
-            item.style.removeProperty("color");
-        });
+        checkMessageWithin5Seconds();
         document.getElementById("buttonText").innerText = "Rescan";
         gattCharacteristic = characteristic
         gattCharacteristic.addEventListener('characteristicvaluechanged', handleChangedValue)
@@ -56,24 +44,24 @@ navigator.bluetooth.requestDevice({
 })
 .catch(error => {
     if (error instanceof DOMException && error.name === 'NotFoundError' && error.message === 'User cancelled the requestDevice() chooser.') {
-    console.log("Người dùng đã hủy yêu cầu kết nối thiết bị.");
-    logstatus("Scan to connect");
+        console.log("User has canceled the device connection request.");
+        logstatus("SCAN to connect");
     } else {
-    console.log("Không thể kết nối với thiết bị: " + error);
-    logstatus("ERROR");
+        console.log("Unable to connect to device: " + error);
+        logstatus("ERROR");
     }
     });
 }}
 function disconnect()
 {
-    logstatus("Scan to connect");
-    console.log("Đã ngắt kết nối với: " + dev.name);
+    logstatus("SCAN to connect");
+    console.log("Disconnected from: " + dev.name);
     return dev.gatt.disconnect();
 }
 function onDisconnected(event) {
     const device = event.target;
     resetPageColor();
-    logstatus("Scan to connect");
+    logstatus("SCAN to connect");
     document.getElementById("buttonText").innerText = "Scan";
     console.log(`Device ${device.name} is disconnected.`);
 }
@@ -96,8 +84,6 @@ function  logstatus(text){
     navbarTitle.textContent = text;
 }
 
-let checkconnected=false;
-
 let checkmessage=false;
 
 const button = document.getElementById("toggleButton");
@@ -116,7 +102,6 @@ function toggleFunction() {
     }
 }
 function resetPageColor(){
-        checkconnected=false;
         checkmessage=false;
         checkpopup = false;
         navbarTitle.style.color = "orange";
@@ -167,7 +152,7 @@ function resetPageColor(){
         resetBackground();
         checkClickDone = false;
 }
-if(!checkconnected){
+if(!checkmessage){
     distanceValue.style.color = "#CCCCCC";
     textangle.style.color = "#CCCCCC";
     textangleLeft.style.color = "#CCCCCC";
@@ -179,6 +164,7 @@ if(!checkconnected){
         item.style.color = "#CCCCCC";
     });
 }
+
 let ir2L,ir0L,ir1R,ir3R,ir4L,ir6L,ir5R,ir7R,TB1A,TB1B,TB2A,TB2B,distance="",i,angleL,angleR;
 
 const angleLValue = document.getElementById('textangleL');
@@ -224,10 +210,20 @@ function handleChangedValue(event) {
         stringcheck=string[0]+string[1]+string[2]+string[7]+string[8]+string[9]+string[10]+string[11]+string[12];
         // Kiểm tra điều kiện
         if (stringcheck === "TB  - IR ") {
-            console.log("Bản tin đúng trước 5 giây.");
+            console.log("Previous message within 5 seconds.");
             checkmessage=true;
-            clearTimeout(timeoutCheckMessage); // Hủy kết thúc sau 5 giây
-        }
+            clearTimeout(timeoutCheckMessage);// Hủy kết thúc sau 5 giây
+            distanceValue.style.color = "black";
+            textangle.style.color = "black";
+            textangleLeft.style.color = "black";
+            textangleRight.style.color = "black";
+            testIRLineCalibration.style.color = "black";
+            buttonsTest.forEach(item => {
+                item.style.color = "black";
+            });
+            gridItems.forEach(item => {
+                item.style.removeProperty("color");
+            });
         let s = string.length;
         stringfill=string.substring(0,s-2);
         UpdateBorderButtonDemo();
@@ -391,13 +387,14 @@ function handleChangedValue(event) {
         navbarTitle.style.color = "green";
     }
 }
+}
 
 let timeoutCheckMessage;
 
 function checkMessageWithin5Seconds() {
     // Thiết lập hàm setTimeout để kết thúc sau 5 giây
     timeoutCheckMessage = setTimeout(function() {
-        console.log("Đã hết thời gian 5 giây, bản tin sai.");
+        console.log("5 seconds timeout, message incorrect.");
         let infoBox = document.getElementById("infopopup");
         // Hiển thị info box
         infoBox.style.display = "block";
@@ -581,23 +578,7 @@ function TestIRLineCalibration(){
     send("IRLine");
     }
 }
-// function TestLineFollowOff(){
-//     // element = document.getElementById("testFollowline");
-//     // element.style.border = "3px solid gray";
-//     send("lineFollowOff");
-// }
-// let checkLineFollow = false;
 
-// function toggleLineFollow(){
-//     if(checkLineFollow){
-//         TestLineFollowOff();
-//         checkLineFollow = false;
-//     }
-//     else{
-//         TestLineFollowOn();
-//         checkLineFollow = true;
-//     }
-// }
 document.addEventListener('DOMContentLoaded', function () {
     var infoButton = document.getElementById('infoButton');
     var infoContent = document.getElementById('infoContent');
