@@ -209,7 +209,7 @@ function handleChangedValue(event) {
         string+=valueString;
         stringcheck=string[0]+string[1]+string[2]+string[7]+string[8]+string[9]+string[10]+string[11]+string[12];
         // Kiểm tra điều kiện
-        if (stringcheck === "TB  - IR ") {
+        if (stringcheck === "TB  - IR " &&  !checkmessage) {
             console.log("Previous message within 5 seconds.");
             checkmessage=true;
             clearTimeout(timeoutCheckMessage);// Hủy kết thúc sau 5 giây
@@ -224,10 +224,11 @@ function handleChangedValue(event) {
             gridItems.forEach(item => {
                 item.style.removeProperty("color");
             });
+        }
         let s = string.length;
         stringfill=string.substring(0,s-2);
         UpdateBorderButtonDemo();
-        if(string[0]=='T'){
+        if(string[0]=='T' && checkmessage){
             TB1A=string[3];checkArray[0]=TB1A;
             TB1B=string[4];checkArray[1]=TB1B;
             TB2A=string[5];checkArray[2]=TB2A;
@@ -386,7 +387,6 @@ function handleChangedValue(event) {
     if(areAllElementsEqualToOne(checkButtonGreen) && areAllElementsEqualToOne(checksum) && check10cm && check30cm){
         navbarTitle.style.color = "green";
     }
-}
 }
 
 let timeoutCheckMessage;
