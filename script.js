@@ -240,7 +240,7 @@ function handleChangedValue(event) {
             ir3R=string[19];checkArray[9]=ir3R;
             ir5R=string[21];checkArray[10]=ir5R;
             ir7R=string[22];checkArray[11]=ir7R;
-            lineState= ir4L + ir2L + ir0L + ir1R;
+            lineState= ir2L + ir0L + ir1R + ir3R;
             if(lineState ==='1111' || lineState ==='0000'){
                 testFollowline.style.color = "#CCCCCC";
             }
