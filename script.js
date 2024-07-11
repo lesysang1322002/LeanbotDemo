@@ -210,7 +210,8 @@ function handleChangedValue(event) {
         stringcheck=string[0]+string[1]+string[2]+string[7]+string[8]+string[9]+string[10]+string[11]+string[12];
         // Kiểm tra điều kiện
         if (stringcheck === "TB  - IR " &&  !checkmessage) {
-            console.log("Previous message within 5 seconds.");
+            console.log("Message correct.");
+            send("RemoteControl");
             checkmessage=true;
             clearTimeout(timeoutCheckMessage);// Hủy kết thúc sau 5 giây
             distanceValue.style.color = "black";
