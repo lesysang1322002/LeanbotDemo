@@ -211,7 +211,7 @@ function handleChangedValue(event) {
         // Kiểm tra điều kiện
         if (stringcheck === "TB  - IR " &&  !checkmessage) {
             console.log("Message correct.");
-            send("RemoteControl");
+            send("ARemoteControl");
             checkmessage=true;
             clearTimeout(timeoutCheckMessage);// Hủy kết thúc sau 5 giây
             distanceValue.style.color = "black";

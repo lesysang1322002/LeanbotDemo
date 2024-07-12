@@ -1,9 +1,10 @@
 #include <Leanbot.h>
 
-#define BEEP_FREQ   1500
-int speed = 1000;
-int SPEED_MAX  = 2000;
-bool checkRemotefromWeb = false;
+const int V_MIN = 350;
+const int V_MEAN = 1000;
+const int V_MAX = 2000;
+
+bool checkDemofromWeb = false;
  
 void setup() {
   Leanbot.begin();
@@ -11,13 +12,16 @@ void setup() {
 }
  
 void loop() {
-  serial_checkCommand();
   printAllSensors();
-  if (!checkRemotefromWeb) lbTouch_check();
+  if (!checkDemofromWeb) {
+    lbTouch_check();
+    serial_checkCommand_Control();
+  }
+  serial_checkCommand_from_Demo();
   LbDelay(100);
 }
 
-void serial_checkCommand() {
+void serial_checkCommand_Demo() {
   if (Serial.available() <= 0) return;
   static String commandBuffer = "";
   while (Serial.available() > 0) {
@@ -30,6 +34,47 @@ void serial_checkCommand() {
     }
   }
 }
+
+void serial_checkCommand_Control() {
+  if (Serial.available() <= 0) return;
+ 
+  int cmd = Serial.read();
+ 
+  static int lastCmd = 0;
+  if (lastCmd == cmd) return;
+  lastCmd = cmd;
+ 
+  switch (cmd) {
+    case 'F':  Leanbot_setSpeed(+4, +4);        break;    // Forward
+    case 'B':  Leanbot_setSpeed(-4, -4);        break;    // Backward
+    case 'L':  Leanbot_setSpeed(-4, +4);        break;    // Left
+    case 'R':  Leanbot_setSpeed(+4, -4);        break;    // Right
+ 
+    case 'G':  Leanbot_setSpeed(+2, +4);        break;    // Forward Left
+    case 'I':  Leanbot_setSpeed(+4, +2);        break;    // Forward Right
+    case 'H':  Leanbot_setSpeed(-2, -4);        break;    // Back Left
+    case 'J':  Leanbot_setSpeed(-4, -2);        break;    // Back Right
+ 
+    case 'S':  Leanbot_setSpeed( 0,  0);        break;    // Stop 
+    case 'q':  Leanbot_SetVelocity(10);         break;
+    case '0' ... '9':
+               Leanbot_SetVelocity(cmd - '0');  break;
+ 
+    case 'W':  ledOn();                         break;
+    case 'w':  ledOff();                        break;
+ 
+    case 'U':  ;                                break;    // back light on
+    case 'u':  ;                                break;    // back light off
+ 
+    case 'V':  hornOn();                        break;
+    case 'v':  hornOff();                       break;
+ 
+    case 'X':  LbGripper.close();              break;
+    case 'x':  LbGripper.open();                break;
+
+  }
+}
+
 
 void printAllSensors() {
   printTouch();
@@ -95,7 +140,7 @@ void handleCommand(String command) {
   else if (command == "StraightMotion") StraightMotionDemo();
   else if (command == "Objectfollow") ObjectfollowDemo();
   else if (command == "IRLine") IRLineManualCalibration();
-  else if (command == "RemoteControll") checkRemotefromWeb = true;
+  else if (command == "RemoteControl") checkDemofromWeb = true;
 }
 
 void StraightMotionDemo(){
@@ -129,9 +174,9 @@ void ObjectfollowDemo(){
   while( (d != 0) && (d < 100) ){
     d = Leanbot.pingCm();
     if (d > (limit + offset)) {
-      LbMotion.runLR(SPEED_MAX, SPEED_MAX);
+      LbMotion.runLR(V_MAX, V_MAX);
     } else if (d < (limit - offset)) {
-      LbMotion.runLR(-SPEED_MAX, -SPEED_MAX);
+      LbMotion.runLR(-V_MAX, -V_MAX);
     }
     printAllSensors();
     LbDelay(50);
@@ -199,22 +244,22 @@ void runFollowLine() {
     switch (lineValue) {
       case 0b0100:
       case 0b1110:
-        LbMotion.runLR(0, +speed);
+        LbMotion.runLR(0, +V_MEAN);
         break;
       case 0b1100:
       case 0b1000:
-        LbMotion.runLR(-speed, +speed);
+        LbMotion.runLR(-V_MEAN, +V_MEAN);
         break;
       case 0b0010:
       case 0b0111:
-        LbMotion.runLR(+speed, 0);
+        LbMotion.runLR(+V_MEAN, 0);
         break;
       case 0b0011:
       case 0b0001:
-        LbMotion.runLR(+speed, -speed);
+        LbMotion.runLR(+V_MEAN, -V_MEAN);
         break;
       default:
-        LbMotion.runLR(+speed, +speed);
+        LbMotion.runLR(+V_MEAN, +V_MEAN);
     }
  
     if (LbIRLine.isBlackDetected())
@@ -255,13 +300,67 @@ void lbTouch_check() {
   }
 }
  
+/*******************************************************************************
+Leanbot_Beep
+*******************************************************************************/
+ 
+#define BEEP_FREQ   1500
+ 
+void hornOn() {
+  Leanbot.tone(BEEP_FREQ, 5000);      // play sound at 1500Hz for 5000ms
+}
+ 
+void hornOff() {
+  Leanbot.noTone();
+}
+ 
 void beepSingle() {
   Leanbot.tone(BEEP_FREQ, 50);        // play sound at 1500Hz for 50ms
 }
  
-void Leanbot_setSpeed(int speedL, int speedR) {
-  LbMotion.runLR(SPEED_MAX * speedL / 4, SPEED_MAX * speedR / 4);
+ 
+/*******************************************************************************
+Leanbot_RGB
+*******************************************************************************/
+ 
+void ledOn() {
+  LbRGB.fillColor(CRGB::White);       // white setting for all lights
+  LbRGB.show();                       // light status update
 }
+ 
+void ledOff() {
+  LbRGB.fillColor(CRGB::Black);       // black setting for all lights
+  LbRGB.show();                       // light status update
+}
+ 
+ 
+/*******************************************************************************
+Leanbot_Motion
+*******************************************************************************/
+ 
+int velocity  = V_MAX / 1;
+int motorLDir = 0;
+int motorRDir = 0;
+ 
+void Leanbot_run() {
+  LbMotion.runLR(velocity * motorLDir / 4, velocity * motorRDir / 4);
+}
+ 
+void Leanbot_setSpeed(int speedL, int speedR) {
+  motorLDir = speedL;
+  motorRDir = speedR;
+  Leanbot_run();
+}
+ 
+void Leanbot_SetVelocity(int speed) {
+  velocity = map(speed, 0, 10, V_MIN, V_MAX);
+  Leanbot_run();
+}
+ 
+ 
+/*******************************************************************************
+Leanbot_Gripper
+*******************************************************************************/
  
 void LbGripper_Toggle() {
   static bool GripperIsClose = false;
