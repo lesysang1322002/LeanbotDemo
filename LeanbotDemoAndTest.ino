@@ -15,9 +15,10 @@ void loop() {
   printAllSensors();
   if (!checkDemofromWeb) {
     lbTouch_check();
-    serial_checkCommand_Control();
+    // serial_checkCommand_Control();
   }
-  serial_checkCommand_from_Demo();
+  // serial_checkCommand_Demo();
+  serial_checkCommand();
   LbDelay(100);
 }
 
@@ -72,6 +73,45 @@ void serial_checkCommand_Control() {
     case 'X':  LbGripper.close();              break;
     case 'x':  LbGripper.open();                break;
 
+  }
+}
+
+void serial_checkCommand(){
+  if (Serial.available() <= 0) return;
+  char cmd = Serial.read();
+  switch (cmd) {
+    case 'F':  Leanbot_setSpeed(+4, +4);        break;    // Forward
+    case 'B':  Leanbot_setSpeed(-4, -4);        break;    // Backward
+    case 'L':  Leanbot_setSpeed(-4, +4);        break;    // Left
+    case 'R':  Leanbot_setSpeed(+4, -4);        break;    // Right
+    case 'G':  Leanbot_setSpeed(+2, +4);        break;    // Forward Left
+    case 'I':  Leanbot_setSpeed(+4, +2);        break;    // Forward Right
+    case 'H':  Leanbot_setSpeed(-2, -4);        break;    // Back Left
+    case 'J':  Leanbot_setSpeed(-4, -2);        break;    // Back Right
+    case 'S':  Leanbot_setSpeed( 0,  0);        break;    // Stop 
+    case 'q':  Leanbot_SetVelocity(10);         break;
+    case '0' ... '9':
+               Leanbot_SetVelocity(cmd - '0');  break;
+    case 'W':  ledOn();                         break;
+    case 'w':  ledOff();                        break;
+    case 'U':  ;                                break;    // back light on
+    case 'u':  ;                                break;    // back light off
+    case 'V':  hornOn();                        break;
+    case 'v':  hornOff();                       break;
+    case 'X':  LbGripper.close();              break;
+    case 'x':  LbGripper.open();                break;
+    default:  
+      String  command = "";
+      command += cmd;
+      while (Serial.available() > 0) {
+        char c = Serial.read();
+        if (c == '\n') {
+          handleCommand(command);
+          break;
+        }
+        else command += c;
+      }
+      break;
   }
 }
 
@@ -132,15 +172,15 @@ void printGripper(){
 }
  
 void handleCommand(String command) {
-  if (command == "Motion") MotionDemo();
-  else if (command == "Gripper") GripperDemo();
-  else if (command == "Buzzer") BuzzerDemo();
-  else if (command == "RGBLeds") RGBLedsDemo();
-  else if (command == "LineFollow") LineFollowDemo();
-  else if (command == "StraightMotion") StraightMotionDemo();
-  else if (command == "Objectfollow") ObjectfollowDemo();
-  else if (command == "IRLine") IRLineManualCalibration();
-  else if (command == "RemoteControl") checkDemofromWeb = true;
+  if (command == "AMotion") MotionDemo();
+  else if (command == "AGripper") GripperDemo();
+  else if (command == "ABuzzer") BuzzerDemo();
+  else if (command == "ARGBLeds") RGBLedsDemo();
+  else if (command == "ALineFollow") LineFollowDemo();
+  else if (command == "AStraightMotion") StraightMotionDemo();
+  else if (command == "AObjectfollow") ObjectfollowDemo();
+  else if (command == "AIRLine") IRLineManualCalibration();
+  else if (command == "ARemoteControl") checkDemofromWeb = true;
 }
 
 void StraightMotionDemo(){
@@ -154,11 +194,12 @@ void StraightMotionDemo(){
   LbDelay(100);
 }
  
-int lineState;
-void LineFollowDemo(){         
+void LineFollowDemo(){
+  int lineState;
   do {
     lineState = LbIRLine.read();
     printAllSensors();
+    LbDelay(50);
     runFollowLine();
   } while ( LbIRLine.isBlackDetected() && lineState != 0b1111 );
   LbMotion.runLR(0, 0);

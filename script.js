@@ -211,7 +211,7 @@ function handleChangedValue(event) {
         // Kiểm tra điều kiện
         if (stringcheck === "TB  - IR " &&  !checkmessage) {
             console.log("Message correct.");
-            send("ARemoteControl");
+            send(".RemoteControl");
             checkmessage=true;
             clearTimeout(timeoutCheckMessage);// Hủy kết thúc sau 5 giây
             distanceValue.style.color = "black";
@@ -537,24 +537,24 @@ function runTest(component, command){
 }
 
 function TestBuzzer(){
-    runTest("Buzzer", "Buzzer");
+    runTest("Buzzer", ".Buzzer");
 }
 
 function TestGripper(){
-    runTest("Gripper", "Gripper");
+    runTest("Gripper", ".Gripper");
 }
 
 function TestLed(){
-    runTest("Led", "RGBLeds");
+    runTest("Led", ".RGBLeds");
 }
 
 function TestMotor(){
-    runTest("Motor", "Motion");
+    runTest("Motor", ".Motion");
 }
 function TestLineFollow(){
     if(checkmessage){
     if(lineState!=='1111' && lineState!=='0000'){
-    runTest("Followline","LineFollow");
+    runTest("Followline",".LineFollow");
     }
     else{
         alert('Please put Leanbot on black line to run Line Follow Demo');
@@ -562,12 +562,12 @@ function TestLineFollow(){
     }
 }
 function TestStraightMotion(){
-    runTest("StraightMotion","StraightMotion");
+    runTest("StraightMotion",".StraightMotion");
 }
 function TestObjectfollow(){
     if(checkmessage){
     if(distanceInt <= 100){
-        runTest("Objectfollow","Objectfollow");
+        runTest("Objectfollow",".Objectfollow");
     }
     else{
         alert('Please put an object within 100 cm in front of Leanbot');
@@ -576,7 +576,7 @@ function TestObjectfollow(){
 }
 function TestIRLineCalibration(){
     if(checkmessage){
-    send("IRLine");
+    send(".IRLine");
     }
 }
 
