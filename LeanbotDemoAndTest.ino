@@ -107,6 +107,7 @@ void serial_checkCommand(){
         char c = Serial.read();
         if (c == '\n') {
           handleCommand(command);
+          Serial.println(command);
           break;
         }
         else command += c;
