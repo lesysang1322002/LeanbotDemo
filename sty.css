@@ -297,6 +297,7 @@ input[type="range"] {
   width:30px;
   border-radius: 50%;
 }
+
 .grid-item.TB1A {
   grid-column: 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 10 / span 2; /* Nằm ở hàng 2 */
@@ -304,6 +305,7 @@ input[type="range"] {
   width:33px;
   border-radius: 5px;
 }
+
 .grid-item.TB2A {
   grid-column: 4; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 13 / span 2; /* Nằm ở hàng 2 */
@@ -311,6 +313,7 @@ input[type="range"] {
   width:33px;
   border-radius: 5px;
 }
+
 .grid-item.TB1B {
   grid-column: 12; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 10 / span 2; /* Nằm ở hàng 2 */
@@ -318,6 +321,7 @@ input[type="range"] {
   width:33px;
   border-radius: 5px;
 }
+
 .grid-item.TB2B {
   grid-column: 12; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 13 / span 2;/* Nằm ở hàng 2 */
@@ -325,6 +329,7 @@ input[type="range"] {
   width:33px;
   border-radius: 5px;
 }
+
 .Gripper{
   grid-column: 6 / span 5; /* Bắt đầu từ cột 6 và chiếm 4 cột */
   grid-row: 4;

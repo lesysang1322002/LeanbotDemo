@@ -151,6 +151,15 @@ function resetPageColor(){
         element10cm.style.color = "#CCCCCC";
         resetBackground();
         checkClickDone = false;
+        clearTimeout(timeoutCheckMessage);
+
+        const resetElements = ["TB1A", "TB1B", "TB2A", "TB2B"];
+        resetElements.forEach((id, index) => {
+            let paragraph = document.getElementById(id).querySelector('p');
+            paragraph.innerHTML = `${id}<br>0`; // Sử dụng <br> để xuống dòng
+            CountTouch[index] = 0; // Đặt lại CountTouch cho các phần tử này
+            checkCoutTouch[index] = true; // Đặt lại checkCoutTouch
+        });
 }
 if(!checkmessage){
     distanceValue.style.color = "#CCCCCC";
@@ -199,6 +208,17 @@ let stringfill;
 let lineState="";
 let stringcheck="";
 let distanceInt;
+
+let CountTouch = Array(4).fill(0);
+let checkCoutTouch = Array(4).fill(true);
+
+// Các id của IR và Touch trong Grid
+const elementIds = [
+    "TB1A", "TB1B", "TB2A", "TB2B", 
+    "ir6L", "ir4L", "ir2L", "ir0L", 
+    "ir1R", "ir3R", "ir5R", "ir7R"
+];
+
 function handleChangedValue(event) {
     let data = event.target.value;
     let dataArray = new Uint8Array(data.buffer);
@@ -206,8 +226,8 @@ function handleChangedValue(event) {
     let valueString = textDecoder.decode(dataArray);
     let n = valueString.length;
     if(valueString[n-1]=='\n'){
-        string+=valueString;
-        stringcheck=string[0]+string[1]+string[2]+string[7]+string[8]+string[9]+string[10]+string[11]+string[12];
+        string += valueString;
+        stringcheck = string[0]+string[1]+string[2]+string[7]+string[8]+string[9]+string[10]+string[11]+string[12];
         // Kiểm tra điều kiện
         if (stringcheck === "TB  - IR " &&  !checkmessage) {
             console.log("Message correct.");
@@ -226,22 +246,24 @@ function handleChangedValue(event) {
                 item.style.removeProperty("color");
             });
         }
+
         let s = string.length;
-        stringfill=string.substring(0,s-2);
+        stringfill = string.substring(0,s-2);
+
         UpdateBorderButtonDemo();
         if(string[0]=='T' && checkmessage){
-            TB1A=string[3];checkArray[0]=TB1A;
-            TB1B=string[4];checkArray[1]=TB1B;
-            TB2A=string[5];checkArray[2]=TB2A;
-            TB2B=string[6];checkArray[3]=TB2B;
-            ir6L=string[13];checkArray[4]=ir6L;
-            ir4L=string[14];checkArray[5]=ir4L;
-            ir2L=string[16];checkArray[6]=ir2L;
-            ir0L=string[17];checkArray[7]=ir0L;
-            ir1R=string[18];checkArray[8]=ir1R;
-            ir3R=string[19];checkArray[9]=ir3R;
-            ir5R=string[21];checkArray[10]=ir5R;
-            ir7R=string[22];checkArray[11]=ir7R;
+            TB1A=string[3];     checkArray[0]=TB1A;
+            TB1B=string[4];     checkArray[1]=TB1B;
+            TB2A=string[5];     checkArray[2]=TB2A;
+            TB2B=string[6];     checkArray[3]=TB2B;
+            ir6L=string[13];    checkArray[4]=ir6L;
+            ir4L=string[14];    checkArray[5]=ir4L;
+            ir2L=string[16];    checkArray[6]=ir2L;
+            ir0L=string[17];    checkArray[7]=ir0L;
+            ir1R=string[18];    checkArray[8]=ir1R;
+            ir3R=string[19];    checkArray[9]=ir3R;
+            ir5R=string[21];    checkArray[10]=ir5R;
+            ir7R=string[22];    checkArray[11]=ir7R;
             lineState = ir2L + ir0L + ir1R + ir3R;
             if(lineState ==='1111' || lineState ==='0000'){
                 testFollowline.style.color = "#CCCCCC";
@@ -249,62 +271,34 @@ function handleChangedValue(event) {
             else{
                 testFollowline.style.color = "green";
             }
-            console.log(lineState);
-            for(let i=0;i<12;i++){
-                let elementId = "";  // Lưu trữ id của thẻ cần thay đổi
-                switch (i) {
-                    case 0: elementId = "TB1A"; break;
-                    case 1: elementId = "TB1B"; break;
-                    case 2: elementId = "TB2A"; break;
-                    case 3: elementId = "TB2B"; break;
-                    case 4: elementId = "ir6L"; break;
-                    case 5: elementId = "ir4L"; break;
-                    case 6: elementId = "ir2L"; break;
-                    case 7: elementId = "ir0L"; break;
-                    case 8: elementId = "ir1R"; break;
-                    case 9: elementId = "ir3R"; break;
-                    case 10: elementId = "ir5R"; break;
-                    case 11: elementId = "ir7R"; break;
-                    default: break;
+
+            
+            for (let i = 0; i < 4; i++) {
+                let element = document.getElementById(elementIds[i]);
+                let paragraph = element.querySelector('p'); // Tìm phần tử <p> bên trong div
+            
+                if (checkArray[i] === '1' && checkCoutTouch[i]) {
+                    checkCoutTouch[i] = false;
+                    CountTouch[i]++;
+                    paragraph.innerHTML = elementIds[i] + "<br>" + CountTouch[i];
                 }
-                let element = document.getElementById(elementId);
-                if(!check1[i]){
-                    if(checkArray[i]=='1'){
-                        element.style.border = "3px solid orange";
-                    if(Lastcommand1[i]){
-                    Timeout1[i] = setTimeout(() => {
-                        element.style.border = "3px solid #CCCCCC";
-                        check1[i]=true;
-                    }, 3000);
-                    }
-                    Lastcommand1[i] = false;
-                    }
-                    else{
-                        clearTimeout(Timeout1[i]);
-                        Lastcommand1[i]=true;   
-                    }
-                }
-                if(!check0[i]){
-                    if(checkArray[i]=='0'){
-                        element.style.border = "3px solid orange";
-                    if(Lastcommand0[i]){
-                    Timeout0[i] = setTimeout(() => {
-                        element.style.border = "3px solid #CCCCCC";
-                        check0[i]=true;
-                    }, 3000);
-                    }
-                    Lastcommand0[i] = false;
-                    }
-                    else{
-                        clearTimeout(Timeout0[i]);
-                        Lastcommand0[i]=true;   
-                    }
-                }
-                if(check0[i] && check1[i]) {
-                    checksum[i]=1;
-                    element.style.border = "3px solid green";  
+                else if(checkArray[i] === '0'){
+                    checkCoutTouch[i] = true;
                 }
             }
+            
+            for (let i = 0; i < elementIds.length; i++) {
+                let element = document.getElementById(elementIds[i]);
+                
+                handleBorderChange(i, element, check1, Lastcommand1, Timeout1, '1');
+                handleBorderChange(i, element, check0, Lastcommand0, Timeout0, '0');
+            
+                if (check0[i] && check1[i]) {
+                    checksum[i] = 1;
+                    element.style.border = "3px solid green";
+                }
+            }  
+
             i=26;
             distance="";
             while(string[i]!=' '){
@@ -390,6 +384,24 @@ function handleChangedValue(event) {
     }
 }
 
+function handleBorderChange(i, element, check, lastCommand, timeout, value) {
+    if (!check[i]){
+        if(checkArray[i] === value) {
+        element.style.border = "3px solid orange";
+        if (lastCommand[i]) {
+            timeout[i] = setTimeout(() => {
+                element.style.border = "3px solid #CCCCCC";
+                check[i] = true;
+            }, 2000);
+        }
+        lastCommand[i] = false;
+        } else {
+            clearTimeout(timeout[i]);
+            lastCommand[i] = true;
+        }
+    }
+}
+
 let timeoutCheckMessage;
 
 function checkMessageWithin5Seconds() {
@@ -439,6 +451,7 @@ function handleTimeoutCheck(check, array, lastCommand, timeout) {
         }
     }
 }
+
 function Updateallbackground(){
     // if(!checkClickDone){
     updateBackground('ir2L', ir2L);
@@ -457,7 +470,7 @@ function Updateallbackground(){
 }
 let checkButtonGreen = [0,0,0,0,0,0,0];
 function UpdateBorderButtonDemo(){
-    console.log(stringfill);
+
     if(stringfill == 'Gripper'){
         element = document.getElementById("testGripper");
         element.style.border = "3px solid green";
@@ -562,7 +575,7 @@ function TestLineFollow(){
     }
 }
 function TestStraightMotion(){
-    runTest("StraightMotion",".StraightMotion");
+    runTest("StraightMotion",".StraightMotionStraightMotion");
 }
 function TestObjectfollow(){
     if(checkmessage){
