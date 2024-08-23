@@ -65,11 +65,16 @@ function onDisconnected(event) {
     document.getElementById("buttonText").innerText = "Scan";
     console.log(`Device ${device.name} is disconnected.`);
 }
-function send(data)
-{
-    console.log("You -> " + data + "\n");
-    gattCharacteristic.writeValue(str2ab(data+"\n"));
+
+function send(data) {
+    if (gattCharacteristic) {
+        console.log("You -> " + data);
+        gattCharacteristic.writeValue(str2ab(data + "\n"));
+    } else {
+        console.log("GATT Characteristic not found.");
+    }
 }
+
 function str2ab(str)
 {
     var buf = new ArrayBuffer(str.length);
@@ -316,15 +321,18 @@ function handleChangedValue(event) {
             let RIndex = string.indexOf('R',GIndex);
             let NLIndex = string.indexOf('\n');
             let j = RIndex + 2;
-            angleL="";
+
+            angleL = "";
             while(string[j] != ' '){
                 angleL += string[j];
                 j++;
             }
+
             let d = angleL.length;
-            angleR=string.substring(RIndex+d+3,NLIndex-1);
+            angleR = string.substring(RIndex+d+3,NLIndex-1);
             angleLValue.textContent = `${angleL}°`;
             angleRValue.textContent = `${angleR}°`;
+
             Updateallbackground(); 
             if(!check10cm){
                 if(distance=='10'){
@@ -418,6 +426,7 @@ function checkMessageWithin5Seconds() {
         });
     }, 5000);
 }
+
 function updateBackground(id, value) {
     const element = document.getElementById(id);
     if (value === '0') {
@@ -549,6 +558,32 @@ function runTest(component, command){
     }
 }
 
+let angleValue = ["0", "-30" , "120" , "90", "45"];
+
+function buttonGripper(direction, angle){
+    console.log("Button Gripper " + direction + " " + angle);
+    switch(angle){
+        case angleValue[0]: sendGripper(direction, angle, angleValue[1]); break;
+        case angleValue[1]: sendGripper(direction, angle, angleValue[2]); break;
+        case angleValue[2]: sendGripper(direction, angle, angleValue[3]); break;
+        case angleValue[3]: sendGripper(direction, angle, angleValue[4]); break;
+        case angleValue[4]: sendGripper(direction, angle, angleValue[0]); break;
+        default: break;
+    }
+}
+
+function sendGripper(direction, angle, degree){
+    send(".Angle " + direction + " " + degree);
+}
+
+function buttonLeftGripper(){
+    buttonGripper("Left", angleL);
+}
+
+function buttonRightGipper(){
+    buttonGripper("Right", angleR);
+}
+
 function TestBuzzer(){
     runTest("Buzzer", ".Buzzer");
 }
@@ -587,6 +622,7 @@ function TestObjectfollow(){
     }
     }
 }
+
 function TestIRLineCalibration(){
     if(checkmessage){
     send(".IRLine");
