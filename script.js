@@ -599,27 +599,30 @@ function TestLed(){
 function TestMotor(){
     runTest("Motor", ".Motion");
 }
+
 function TestLineFollow(){
     if(checkmessage){
-    if(lineState!=='1111' && lineState!=='0000'){
-    runTest("Followline",".LineFollow");
-    }
-    else{
-        alert('Please put Leanbot on black line to run Line Follow Demo');
-    }
+        if(lineState!=='1111' && lineState!=='0000'){
+        runTest("Followline",".LineFollow");
+        }
+        else{
+            alert('Please put Leanbot on black line to run Line Follow Demo');
+        }
     }
 }
+
 function TestStraightMotion(){
     runTest("StraightMotion",".StraightMotionStraightMotion");
 }
+
 function TestObjectfollow(){
     if(checkmessage){
-    if(distanceInt <= 100){
-        runTest("Objectfollow",".Objectfollow");
-    }
-    else{
-        alert('Please put an object within 100 cm in front of Leanbot');
-    }
+        if(distanceInt <= 100){
+            runTest("Objectfollow",".Objectfollow");
+        }
+        else{
+            alert('Please put an object within 100 cm in front of Leanbot');
+        }
     }
 }
 

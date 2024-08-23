@@ -149,12 +149,11 @@ color:white;
 input[type="range"] {
   width: 98%; 
 }
-/* .distance-slider{
-  background: green;
-} */
+
 .distance-text{
   margin:0 0;
 }
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(15, 1fr); /* Tạo 15 cột với chiều rộng bằng nhau */
@@ -349,6 +348,8 @@ input[type="range"] {
 .buttonGripper{
   border-radius: 4px;
   width: 42px;
+  background-color: #a0cef1 !important; 
+  border: none;
 }
 
 p{
