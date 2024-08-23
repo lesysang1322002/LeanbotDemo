@@ -462,7 +462,6 @@ function handleTimeoutCheck(check, array, lastCommand, timeout) {
 }
 
 function Updateallbackground(){
-    // if(!checkClickDone){
     updateBackground('ir2L', ir2L);
     updateBackground('ir0L', ir0L);
     updateBackground('ir1R', ir1R);
@@ -475,8 +474,8 @@ function Updateallbackground(){
     updateBackground('TB1B', TB1B);
     updateBackground('TB2A', TB2A);
     updateBackground('TB2B', TB2B);
-    // }
 }
+
 let checkButtonGreen = [0,0,0,0,0,0,0];
 function UpdateBorderButtonDemo(){
 
@@ -522,8 +521,8 @@ function UpdateBorderButtonDemo(){
         checkButtonGreen[6]=1;
         checkClickDone = false;
     }
-    // console.log(checkButtonGreen);
 }
+
 function areAllElementsEqualToOne(arr) {
     for (let i = 0; i < arr.length; i++) {
       if (arr[i] !== 1) {
@@ -558,30 +557,22 @@ function runTest(component, command){
     }
 }
 
-let angleValue = ["0", "-30" , "120" , "90", "45"];
+let angleValues = ["0", "-30" , "120" , "90", "45"];
 
-function buttonGripper(direction, angle){
-    console.log("Button Gripper " + direction + " " + angle);
-    switch(angle){
-        case angleValue[0]: sendGripper(direction, angle, angleValue[1]); break;
-        case angleValue[1]: sendGripper(direction, angle, angleValue[2]); break;
-        case angleValue[2]: sendGripper(direction, angle, angleValue[3]); break;
-        case angleValue[3]: sendGripper(direction, angle, angleValue[4]); break;
-        case angleValue[4]: sendGripper(direction, angle, angleValue[0]); break;
-        default: break;
+function sendAngle(direction, currentAngle) {
+    let currentIndex = angleValues.indexOf(currentAngle);
+    if (currentIndex !== -1) {
+        let nextIndex = (currentIndex + 1) % angleValues.length;
+		send(".Angle " + direction + " " + angleValues[nextIndex]);
     }
 }
 
-function sendGripper(direction, angle, degree){
-    send(".Angle " + direction + " " + degree);
-}
-
 function buttonLeftGripper(){
-    buttonGripper("Left", angleL);
+    sendAngle("Left", angleL);
 }
 
 function buttonRightGipper(){
-    buttonGripper("Right", angleR);
+    sendAngle("Right", angleR);
 }
 
 function TestBuzzer(){
