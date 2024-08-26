@@ -560,19 +560,19 @@ function runTest(component, command){
 let angleValues = ["0", "-30" , "120" , "90", "45"];
 
 function sendAngle(direction, currentAngle) {
-    if(!checkClickDone){
     let currentIndex = angleValues.indexOf(currentAngle);
-    let nextIndex = (currentIndex + 1) % angleValues.length;
-    send(".Gripper" + direction + " " + angleValues[nextIndex]);
+    if (currentIndex !== -1) {
+        let nextIndex = (currentIndex + 1) % angleValues.length;
+		send(".Angle " + direction + " " + angleValues[nextIndex]);
     }
 }
 
 function buttonLeftGripper(){
-    sendAngle("L", angleL);
+    sendAngle("Left", angleL);
 }
 
 function buttonRightGipper(){
-    sendAngle("R", angleR);
+    sendAngle("Right", angleR);
 }
 
 function TestBuzzer(){
@@ -603,7 +603,7 @@ function TestLineFollow(){
 }
 
 function TestStraightMotion(){
-    runTest("StraightMotion",".StraightMotionStraightMotion");
+    runTest("StraightMotion",".StraightMotion");
 }
 
 function TestObjectfollow(){
